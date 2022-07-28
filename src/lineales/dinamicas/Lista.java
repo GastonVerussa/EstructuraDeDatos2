@@ -4,10 +4,12 @@ public class Lista {
     
     //  Variable Nodo que apunta simepre a la cabecera
     private Nodo cabecera;
+    private int longitud;
     
     //  Crea y devuelve una lista vacía.
     public Lista(){
         cabecera = null;
+        longitud = 0;
     }
 
     //  Agrega el elemento pasado por parámetro en la posición pos, de manera que la cantidad de elementos
@@ -19,7 +21,7 @@ public class Lista {
         boolean exito = true;
         
         //  Checkea que la posicion sea valida
-        if(pos < 1 || pos > this.longitud() + 1){
+        if(pos < 1 || pos > this.longitud + 1){
             exito = false;
         } else {
             //  Caso especial, si es la primera posicion y es valida
@@ -42,6 +44,8 @@ public class Lista {
                 
             }
         }
+        
+        if(exito)longitud++;
         
         return exito;
     }
@@ -77,6 +81,8 @@ public class Lista {
             }
         }
         
+        if(exito)longitud--;
+        
         return exito;
     }
 
@@ -105,8 +111,6 @@ public class Lista {
         
         //  Variable resultado que se retornara al final
         int resultado = -1;
-        //  Variable longitud para tener que ir a buscar una única vez en vez de en cada bucle
-        int longitud = this.longitud();
         
         //  Nodo auxiliar para recorrer la estructura
         Nodo aux = cabecera;
@@ -114,7 +118,7 @@ public class Lista {
         int posAux = 1;
         
         //  Recorre la estructura hasta encontrar el elemento buscado o llegar al final
-        while(posAux <= longitud && resultado == -1){
+        while(posAux <= this.longitud && resultado == -1){
             //  Si es el elemento buscado
             if(aux.getElem().equals(elem)){
                 //  Asigna su posicion a resultado
@@ -145,19 +149,7 @@ public class Lista {
     
     //  Devuelve la cantidad de elementos de la lista.
     public int longitud(){
-        
-        //  Variable para guardar el resultado
-        int resultado = 0;
-        //  Nodo auxiliar para recorrer la estructura
-        Nodo aux = cabecera;
-        
-        //  Recorre toda la estructura, avanzando y sumando a resultado hasta que llege al final
-        while(aux != null){
-            aux = aux.getEnlace();
-            resultado++;
-        }
-        
-        return resultado;
+        return this.longitud;
     }
     
     //  Devuelve una copia exacta de los datos en la estructura original, y respetando el orden de los mismos,

@@ -1,27 +1,33 @@
-package conjuntistas;
+package propositoEspecifico;
 
-public class NodoAVL {
+public class NodoAVLDicc {
     
-    private Comparable elem;
-    private NodoAVL izquierdo, derecho;
+    private Comparable clave;
+    private Object dato;
+    private NodoAVLDicc izquierdo, derecho;
     private int altura;
     
-    public NodoAVL(Comparable elem){
-        this.elem = elem;
+    public NodoAVLDicc(Comparable clave, Object dato){
+        this.clave = clave;
+        this.dato = dato;
         this.izquierdo = null;
         this.derecho = null;
         this.altura = 0;
     }
     
-    public Comparable getElem(){
-        return this.elem;
+    public Comparable getClave(){
+        return this.clave;
     }
     
-    public NodoAVL getIzquierdo(){
+    public Object getDato(){
+        return this.dato;
+    }
+    
+    public NodoAVLDicc getIzquierdo(){
         return izquierdo;
     }
     
-    public NodoAVL getDerecho(){
+    public NodoAVLDicc getDerecho(){
         return derecho;
     }
     
@@ -29,15 +35,19 @@ public class NodoAVL {
         return altura;
     }
     
-    public void setElem(Comparable elem){
-        this.elem = elem;
+    public void setClave(Comparable clave){
+        this.clave = clave;
     }
     
-    public void setIzquierdo(NodoAVL izquierdo){
+    public void setDato(Object dato){
+        this.dato = dato;
+    }
+    
+    public void setIzquierdo(NodoAVLDicc izquierdo){
         this.izquierdo = izquierdo;
     }
     
-    public void setDerecho(NodoAVL derecho){
+    public void setDerecho(NodoAVLDicc derecho){
         this.derecho = derecho;
     }
     

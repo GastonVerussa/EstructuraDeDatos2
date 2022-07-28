@@ -109,7 +109,7 @@ public class TablaHash {
         while(auxiliar != null && !exito){
             //  Si encuentra el elemento
             if(auxiliar.getElem() == elemento){
-                //  Entonces esta repetido, por lo que no hay exito
+                //  Entonces el elemento pertenece, hay exito
                 exito = true;
             } else {
                 //  Si no es el elemento, se consigue el enlace para seguir revisando

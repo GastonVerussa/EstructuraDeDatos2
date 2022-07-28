@@ -1,52 +1,52 @@
-package conjuntistas;
+package propositoEspecifico;
+
 import lineales.dinamicas.Lista;
 import lineales.dinamicas.Pila;
 import lineales.dinamicas.Cola;
 
-public class ArbolAVL {
+public class DiccionarioAVL {
     
-    private NodoAVL raiz;
+    private NodoAVLDicc raiz;
     
-    //  Crea un árbol sin elementos.
-    public ArbolAVL(){
-        raiz = null;
+    // crea una estructura sin elementos.
+    public DiccionarioAVL(){
+        this.raiz = null;
     }
     
-    //  Recibe un elemento y lo agrega en el árbol de manera ordenada. Si el elemento ya se encuentra
-    //      en el árbol no se realiza la inserción. Devuelve verdadero si el elemento se agrega a la estructura y
-    //      falso en caso contrario.
-    public boolean insertar(Comparable elemento){
-        
+    //  Recibe la clave que es única y el dato (información asociada a ella). Si no existe en la estructura
+    //      un elemento con igual clave, agrega el par (clave, dato) a la estructura. Si la operación termina con
+    //      éxito devuelve verdadero y falso en caso contrario.
+    public boolean insertar(Comparable clave,Object dato){
         boolean exito = true;
         
-        //  Si el arbol esta vacio
+        //  Si el diccionario esta vacio
         if(this.esVacio()){
             //  Pone el nuevo elemento en la nueva raiz
-            raiz = new NodoAVL(elemento);
+            raiz = new NodoAVLDicc(clave, dato);
         } else {
             //  Variable para salir del while
             boolean salir = false;
             //  Variable para recorrer la estructura
-            NodoAVL aux = raiz;
+            NodoAVLDicc aux = raiz;
             //  Pila donde se guardaran los nodos para verificar el balance y altura a la vuelta
             Pila pilaAuxiliar = new Pila();
             //  En caso de que no este vacio, se ingresa a un while para buscar la posicion adecuada
             while(!salir){
-                //  Si el elemento del nodo actual es igual al que se desea ingresar
-                if(aux.getElem().compareTo(elemento) == 0){
-                    //  Da error, no acepta valores duplicados
+                //  Si la clave del nodo actual es igual al que se desea ingresar
+                if(aux.getClave().compareTo(clave) == 0){
+                    //  Da error, las claves deben ser unicas
                     exito = false;
                     salir = true;
                 } else {
                     //  Si es menor el buscado al del nodo actual
-                    if(elemento.compareTo(aux.getElem()) < 0){
+                    if(clave.compareTo(aux.getClave()) < 0){
                         if(aux.getIzquierdo() != null){
                             //  Si existe, se apila el nodo y se busca por su hijo izquierdo
                             pilaAuxiliar.apilar(aux);
                             aux = aux.getIzquierdo();
                         } else {
-                            //  Si no existe, se crea un nuevo nodo con el elemento como hijo derecho
-                            aux.setIzquierdo(new NodoAVL(elemento));
+                            //  Si no existe, se crea un nuevo nodo con la clave y dato como hijo derecho
+                            aux.setIzquierdo(new NodoAVLDicc(clave, dato));
                             //  Recalcula la altura con el nuevo hijo
                             aux.recalcularAltura();
                             salir = true;
@@ -57,8 +57,8 @@ public class ArbolAVL {
                             pilaAuxiliar.apilar(aux);
                             aux = aux.getDerecho();
                         } else {
-                            //  Si no existe, se crea un nuevo nodo con el elemento como hijo derecho
-                            aux.setDerecho(new NodoAVL(elemento));
+                            //  Si no existe, se crea un nuevo nodo con la clave y el dato como hijo derecho
+                            aux.setDerecho(new NodoAVLDicc(clave, dato));
                             //  Recalcula la altura con el nuevo hijo
                             aux.recalcularAltura();
                             salir = true;
@@ -67,14 +67,14 @@ public class ArbolAVL {
                 }
             }
             if(exito){
-                NodoAVL padreAux;
-                NodoAVL nuevaRaizSubarbol;
+                NodoAVLDicc padreAux;
+                NodoAVLDicc nuevaRaizSubarbol;
                 while(!pilaAuxiliar.esVacia()){
-                    padreAux = (NodoAVL) pilaAuxiliar.obtenerTope();
+                    padreAux = (NodoAVLDicc) pilaAuxiliar.obtenerTope();
                     pilaAuxiliar.desapilar();
                     nuevaRaizSubarbol = verificarBalance(aux);
                     if(nuevaRaizSubarbol != null){
-                        if(nuevaRaizSubarbol.getElem().compareTo(padreAux.getElem()) > 0){
+                        if(nuevaRaizSubarbol.getClave().compareTo(padreAux.getClave()) > 0){
                             padreAux.setDerecho(nuevaRaizSubarbol);
                         } else {
                             padreAux.setIzquierdo(nuevaRaizSubarbol);
@@ -91,15 +91,12 @@ public class ArbolAVL {
             }
         }
         
-        
-        
         return exito;
     }
-
-    //  Recibe el elemento que se desea eliminar y se procede a removerlo del árbol. Si no se encuentra
-    //      el elemento no se puede realizar la eliminación. Devuelve verdadero si el elemento se elimina de la
-    //      estructura y falso en caso contrario.
-    public boolean eliminar(Comparable elemento){
+    
+    //  Elimina el elemento cuya clave sea la recibida por parámetro. Si lo encuentra y la operación de
+    //      eliminación termina con éxito devuelve verdadero y falso en caso contrario.
+    public boolean eliminar(Comparable clave){
         
         boolean exito = true;
         
@@ -107,12 +104,12 @@ public class ArbolAVL {
         if(this.esVacio()){
             exito = false;
         } else {
-            //  Si la raiz no tiene el elemento que buscamos
-            if(raiz.getElem().compareTo(elemento) != 0){
+            //  Si la raiz no tiene la clave que buscamos
+            if(raiz.getClave().compareTo(clave) != 0){
                 //  Llamamos a la funcion privada auxiliar elminarAux
-                exito = eliminarAux(elemento, raiz);
+                exito = eliminarAux(clave, raiz);
                 if(exito == true){
-                    NodoAVL nuevaRaiz = verificarBalance(raiz);
+                    NodoAVLDicc nuevaRaiz = verificarBalance(raiz);
                     if(nuevaRaiz != null){
                         raiz = nuevaRaiz;
                     }
@@ -124,7 +121,7 @@ public class ArbolAVL {
                         //  Caso 3, tiene ambos hijos
                         //  Para este caso existe una funcion privada llamada elminarCaso3
                         eliminarCaso3(raiz);
-                        NodoAVL nuevaRaiz = verificarBalance(raiz);
+                        NodoAVLDicc nuevaRaiz = verificarBalance(raiz);
                         if(nuevaRaiz != null)raiz = nuevaRaiz;
                     } else {
                         //  Caso 2, tiene un hijo izquierdo nomas
@@ -146,26 +143,26 @@ public class ArbolAVL {
     }
     
     //  Funcion privada auxiliar para el metodo eliminar()
-    //  Precondicion: Que el nodo pasado como paramentro no tenga el elemento buscado, ni sea nulo
-    private boolean eliminarAux(Comparable elemento, NodoAVL nodo){
+    //  Precondicion: Que el nodo pasado como paramentro no tenga la clave buscado, ni sea nulo
+    private boolean eliminarAux(Comparable clave, NodoAVLDicc nodo){
         
         boolean exito = true;
         
-        //  Si el valor del elemento que buscamos es menor al elemenoto del nodo por parametro
-        if(elemento.compareTo(nodo.getElem()) < 0){
+        //  Si el valor de la clave que buscamos es menor la clave del nodo por parametro
+        if(clave.compareTo(nodo.getClave()) < 0){
             //  Significa que debemos buscar por la izquierda
-            NodoAVL aux = nodo.getIzquierdo();
-            //  Si no hay nada a la izquierda, no existe el elemento en el arbol, se devuelve que no hubo exito
+            NodoAVLDicc aux = nodo.getIzquierdo();
+            //  Si no hay nada a la izquierda, no existe el elemento con la clave en el arbol, se devuelve que no hubo exito
             if(aux == null){
                 exito = false;
             } else {
-                //  Si hay algo a la izquierda, verifica si es el elemento buscado
-                if(aux.getElem().compareTo(elemento) != 0){
+                //  Si hay algo a la izquierda, verifica si es la clave buscado
+                if(aux.getClave().compareTo(clave) != 0){
                     //  De no serlo, busca por izquierda con el mismo metodo recursivo
-                    exito = eliminarAux(elemento, aux);
+                    exito = eliminarAux(clave, aux);
                     aux.recalcularAltura();
                     if(exito == true){
-                        NodoAVL nuevaRaizSubarbol = verificarBalance(aux);
+                        NodoAVLDicc nuevaRaizSubarbol = verificarBalance(aux);
                         if(nuevaRaizSubarbol != null){
                             nodo.setIzquierdo(nuevaRaizSubarbol);
                         }
@@ -177,7 +174,7 @@ public class ArbolAVL {
                         if(aux.getDerecho() != null){
                             //  Caso 3, tiene ambos hijos, consigue candidato izquierdo, el mayor de los menores
                             eliminarCaso3(aux);
-                            NodoAVL nuevaRaizSubarbol = verificarBalance(aux);
+                            NodoAVLDicc nuevaRaizSubarbol = verificarBalance(aux);
                             if(nuevaRaizSubarbol != null){
                                 nodo.setIzquierdo(nuevaRaizSubarbol);
                             }
@@ -202,14 +199,14 @@ public class ArbolAVL {
         } else {
             //  Si no es menor, sabemos que no es mayor (Ya que la precondicion es que no sea igual), usa la misma logica 
             //      que para revisar por izquierda
-            NodoAVL aux = nodo.getDerecho();
+            NodoAVLDicc aux = nodo.getDerecho();
             if(aux == null){
                 exito = false;
             } else {
-                if(aux.getElem().compareTo(elemento) != 0){
-                    exito = eliminarAux(elemento, aux); 
+                if(aux.getClave().compareTo(clave) != 0){
+                    exito = eliminarAux(clave, aux); 
                     if(exito == true){
-                        NodoAVL nuevaRaizSubarbol = verificarBalance(aux);
+                        NodoAVLDicc nuevaRaizSubarbol = verificarBalance(aux);
                         if(nuevaRaizSubarbol != null){
                             nodo.setDerecho(nuevaRaizSubarbol);
                         }
@@ -220,7 +217,7 @@ public class ArbolAVL {
                         if(aux.getDerecho() != null){
                             //  Caso 3, tiene ambos hijos, consigue candidato izquierdo, el mayor de los menores
                             eliminarCaso3(aux);
-                            NodoAVL nuevaRaizSubarbol = verificarBalance(aux);
+                            NodoAVLDicc nuevaRaizSubarbol = verificarBalance(aux);
                             if(nuevaRaizSubarbol != null){
                                 nodo.setDerecho(nuevaRaizSubarbol);
                             }
@@ -247,13 +244,14 @@ public class ArbolAVL {
     
     //  Funcion privada para realizar el algoritmo de eliminacion de caso 3, el caso en el que
     //      el nodo a ser eliminado tiene hijo izquierdo y derecho.
-    private void eliminarCaso3(NodoAVL nodo){
+    private void eliminarCaso3(NodoAVLDicc nodo){
         //  Caso 3, tiene ambos hijos, consigue candidato izquierdo, el mayor de los menores
-        NodoAVL aux = nodo.getIzquierdo();
+        NodoAVLDicc aux = nodo.getIzquierdo();
         //  Si es el primero a la izquierda
         if(aux.getDerecho() == null){
-            //  Copia su elemento
-            nodo.setElem(aux.getElem());
+            //  Copia su clave y dato
+            nodo.setClave(aux.getClave());
+            nodo.setDato(aux.getDato());
             //  En caso de tener hijo izquierdo
             if(aux.getIzquierdo() != null){
                 //  Caso 2, hijo izquierdo
@@ -270,8 +268,8 @@ public class ArbolAVL {
                 pilaAuxiliar.apilar(aux);
                 aux = aux.getDerecho();
             }
-            //  Copia el elemento del mayor
-            nodo.setElem(aux.getDerecho().getElem());
+            //  Copia la clave y dato del mayor
+            nodo.setClave(aux.getDerecho().getClave());
             //  En caso de tener hijo izquierdo
             if(aux.getDerecho().getIzquierdo() != null){
                 //  Caso 2, hijo izquierdo
@@ -281,10 +279,10 @@ public class ArbolAVL {
                 aux.setDerecho(null);
             }
             aux.recalcularAltura();
-            NodoAVL padreAuxiliar;
-            NodoAVL nuevaRaizSubarbol;
+            NodoAVLDicc padreAuxiliar;
+            NodoAVLDicc nuevaRaizSubarbol;
             while(!pilaAuxiliar.esVacia()){
-                padreAuxiliar = (NodoAVL) pilaAuxiliar.obtenerTope();
+                padreAuxiliar = (NodoAVLDicc) pilaAuxiliar.obtenerTope();
                 nuevaRaizSubarbol = verificarBalance(aux);
                 if(nuevaRaizSubarbol != null){
                     padreAuxiliar.setDerecho(nuevaRaizSubarbol);
@@ -301,9 +299,9 @@ public class ArbolAVL {
         }
     }
     
-    private NodoAVL verificarBalance(NodoAVL nodo){
+    private NodoAVLDicc verificarBalance(NodoAVLDicc nodo){
         
-        NodoAVL nuevaRaiz = null;
+        NodoAVLDicc nuevaRaiz = null;
         int balance = getBalance(nodo);
         
         if(balance > 1){
@@ -331,7 +329,7 @@ public class ArbolAVL {
         return nuevaRaiz;
     }
     
-    private int getBalance(NodoAVL nodo){
+    private int getBalance(NodoAVLDicc nodo){
         
         int alturaIzq, alturaDer;
         
@@ -350,10 +348,10 @@ public class ArbolAVL {
         return alturaIzq - alturaDer;
     }
     
-    private NodoAVL rotarDerecha(NodoAVL pivot){
+    private NodoAVLDicc rotarDerecha(NodoAVLDicc pivot){
         
-        NodoAVL hijo = pivot.getIzquierdo();
-        NodoAVL aux = hijo.getDerecho();
+        NodoAVLDicc hijo = pivot.getIzquierdo();
+        NodoAVLDicc aux = hijo.getDerecho();
         hijo.setDerecho(pivot);
         pivot.setIzquierdo(aux);
         pivot.recalcularAltura();
@@ -361,24 +359,25 @@ public class ArbolAVL {
         return hijo;
     }
     
-    private NodoAVL rotarIzquierda(NodoAVL pivot){
+    private NodoAVLDicc rotarIzquierda(NodoAVLDicc pivot){
         
-        NodoAVL hijo = pivot.getDerecho();
-        NodoAVL aux = hijo.getIzquierdo();
+        NodoAVLDicc hijo = pivot.getDerecho();
+        NodoAVLDicc aux = hijo.getIzquierdo();
         hijo.setIzquierdo(pivot);
         pivot.setDerecho(aux);
         pivot.recalcularAltura();
         hijo.recalcularAltura();
         return hijo;
     }
-
-    //  Devuelve verdadero si el elemento recibido por parámetro está en el árbol y falso en caso contrario.
-    public boolean pertenece(Comparable elemento){
-        return perteneceAux(elemento, raiz);
+    
+    //  Devuelve verdadero si en la estructura se encuentra almacenado un elemento con la clave recibida
+    //      por parámetro, caso contrario devuelve falso
+    public boolean existeClave(Comparable clave){
+        return existeClaveAux(clave, raiz);
     }
     
     //  Funcion privada para pertenece()
-    private boolean perteneceAux(Comparable elemento, NodoAVL nodo){
+    private boolean existeClaveAux(Comparable clave, NodoAVLDicc nodo){
         
         boolean esta;
         
@@ -388,127 +387,112 @@ public class ArbolAVL {
             esta = false;
         } else {
             //  Si el nodo contiene el elemento buscado
-            if(nodo.getElem().compareTo(elemento) == 0){
-                //  Devolvemos que pertenece
+            if(nodo.getClave().compareTo(clave) == 0){
+                //  Devolvemos que existe
                 esta = true;
             } else {
                 //  En caso que no lo contenga, revisamos el nodo izquierdo o derecho,
                 //      dependiendo de si es mayor o menor.
-                if(nodo.getElem().compareTo(elemento) < 0){
-                    esta = perteneceAux(elemento, nodo.getDerecho());
+                if(nodo.getClave().compareTo(clave) < 0){
+                    esta = existeClaveAux(clave, nodo.getDerecho());
                 } else {
-                    esta = perteneceAux(elemento, nodo.getIzquierdo());
+                    esta = existeClaveAux(clave, nodo.getIzquierdo());
                 }
             }
         }
         
         return esta;
     }
-
-    //  Devuelve falso si hay al menos un elemento en el árbol y verdadero en caso contrario.
-    public boolean esVacio(){
-        return raiz == null;
+    
+    //  Si en la estructura se encuentra almacenado un elemento con la clave recibida por parámetro,
+    //      devuelve la información asociada a ella. Precondición: si no existe un elemento con esa clave no se
+    //      puede asegurar el funcionamiento de la operación.
+    public Object obtenerInformacion(Comparable clave){
+        return obtenerInformacionAux(clave, raiz);
     }
+    
+    private Object obtenerInformacionAux(Comparable clave, NodoAVLDicc nodo){
         
-    //  Recorre el árbol completo y devuelve una lista ordenada con los elementos que se encuentran
-    //      almacenados en él.
-    public Lista listar(){
-        Lista resultado = new Lista();
-        listarAux(raiz, resultado);
+        Object resultado = null;
+        
+        //  Si el nodo no existe
+        if(nodo != null){
+            //  Si el nodo contiene el elemento buscado
+            if(nodo.getClave().compareTo(clave) == 0){
+                //  Devolvemos que existe
+                resultado = nodo.getDato();
+            } else {
+                //  En caso que no lo contenga, revisamos el nodo izquierdo o derecho,
+                //      dependiendo de si es mayor o menor.
+                if(nodo.getClave().compareTo(clave) < 0){
+                    resultado = obtenerInformacionAux(clave, nodo.getDerecho());
+                } else {
+                    resultado = obtenerInformacionAux(clave, nodo.getIzquierdo());
+                }
+            }
+        }
+        
         return resultado;
     }
+    
+    //  Recorre la estructura completa y devuelve una lista ordenada con las claves de los elementos que
+    //      se encuentran almacenados en ella.
+    public Lista listarClaves(){
+        Lista resultado = new Lista();
+        listarClavesAux(raiz, resultado);
+        return resultado;
+    }
+    
 
     //  Funciona privada para llenar la lista, la llena en Inorden, ya que de esta forma quedan de menor a mayor.
-    private void listarAux(NodoAVL nodo, Lista list){
+    private void listarClavesAux(NodoAVLDicc nodo, Lista list){
         
         //  Si el nodo existe
         if(nodo != null){
             //  Llena la lista en Inorden
-            listarAux(nodo.getIzquierdo(), list);
-            list.insertar(nodo.getElem(), list.longitud() + 1);
-            listarAux(nodo.getDerecho(), list);
+            listarClavesAux(nodo.getIzquierdo(), list);
+            list.insertar(nodo.getClave(), list.longitud() + 1);
+            listarClavesAux(nodo.getDerecho(), list);
         } 
     }
     
-    //  Recorre parte del árbol (sólo lo necesario) y devuelve una lista ordenada con los elementos que
-    //      se encuentran en el intervalo [elemMinimo, elemMaximo].
-    public Lista listarRango(Comparable elemMinimo, Comparable elemMaximo){
+    //  Recorre la estructura completa y devuelve una lista ordenada con la información asociada de los
+    //      elementos que se encuentran almacenados en ella.
+    public Lista listarDatos(){
         Lista resultado = new Lista();
-        listarRangoAux(elemMinimo, elemMaximo, raiz, resultado);
+        listarDatosAux(raiz, resultado);
         return resultado;
     }
     
-    //  Funcion privada para listarRango(), inserta los elementos que se encuentran en el intervalo en inorden (De menor a mayor)
-    private void listarRangoAux(Comparable elemMinimo, Comparable elemMaximo, NodoAVL nodo, Lista list){
+    
+    //  Funciona privada para llenar la lista, la llena en Inorden, ya que de esta forma quedan de menor a mayor.
+    private void listarDatosAux(NodoAVLDicc nodo, Lista list){
         
+        //  Si el nodo existe
         if(nodo != null){
-            //  Variable para referenciar al elemento del nodo facilmente
-            Comparable aux = nodo.getElem();
-            //  Si el elemento del nodo es menor o igual al limite inferior del intervalo, no 
-            //      revisamos el hijo izquierdo, ya que todos sus elementos serán menores.
-            if(aux.compareTo(elemMinimo) > 0){
-                //  De no ser menor, revisamos el subarbol del hijo izquierdo
-                listarRangoAux(elemMinimo, elemMaximo, nodo.getIzquierdo(), list);
-            }
-            //  Si el elemento del nodo se encuentra dentro del intervalo
-            if(aux.compareTo(elemMinimo) >= 0 && aux.compareTo(elemMaximo) <= 0){
-                //  Lo insertamos al final de la lista
-                list.insertar(aux, list.longitud() + 1);
-            }
-            //  Si el elemento del nodo es mayor o igual al limite superior del intervalo, no 
-            //      revisamos el hijo derecho, ya que todos sus elementos serán mayores.
-            if(aux.compareTo(elemMaximo) < 0){
-                //  De no ser mayor, revisamos el subarbol del hijo derecho
-                listarRangoAux(elemMinimo, elemMaximo, nodo.getDerecho(), list);
-            }
-        }
-    }
-
-    //  Recorre la rama correspondiente y devuelve el elemento más pequeño almacenado en el árbol.
-    public Comparable minimoElem(){
-        
-        Comparable resultado = null;
-        
-        if(!this.esVacio()){
-            NodoAVL aux = raiz;
-            while(aux.getIzquierdo() != null){
-                aux = aux.getIzquierdo();
-            }
-            resultado = aux.getElem();
-        }
-        
-        return resultado;
-    }
-
-    //  Recorre la rama correspondiente y devuelve el elemento más grande almacenado en el árbol
-    public Comparable maximoElem(){
-        
-        Comparable resultado = null;
-        
-        if(!this.esVacio()){
-            NodoAVL aux = raiz;
-            while(aux.getDerecho() != null){
-                aux = aux.getDerecho();
-            }
-            resultado = aux.getElem();
-        }
-        
-        return resultado;
+            //  Llena la lista en Inorden
+            listarDatosAux(nodo.getIzquierdo(), list);
+            list.insertar(nodo.getDato(), list.longitud() + 1);
+            listarDatosAux(nodo.getDerecho(), list);
+        } 
     }
     
-    //      EXTRAS
+    // devuelve falso si hay al menos un elemento cargado en la estructura y verdadero en caso contrario
+    public boolean esVacio(){
+        return this.raiz == null;
+    }
     
     public void vaciar(){
-        raiz = null;
+        this.raiz = null;
     }
     
     //  Devuelve una copia del arbol, para clonarlo recorre la estructura en orden 
     //      por niveles, de esta forma, al ir insertando nodos en el clon, no será
     //      necesario hacer un rebalance, siendo la manera mas efectiva.
     @Override
-    public ArbolAVL clone(){
+    public DiccionarioAVL clone(){
         
-        ArbolAVL resultado = new ArbolAVL();
+        DiccionarioAVL resultado = new DiccionarioAVL();
         
         //  Si no esta vacía
         if(!this.esVacio()){
@@ -516,7 +500,7 @@ public class ArbolAVL {
             //  Cola para ir almacenando los nodos
             Cola colaAuxiliar = new Cola();
             //  auxiliar para recorrer la estructura
-            NodoAVL nodoAux;
+            NodoAVLDicc nodoAux;
 
             //  Empiezo poniendo la raiz en la cola
             colaAuxiliar.poner(raiz);
@@ -524,10 +508,10 @@ public class ArbolAVL {
             //  Mientras la cola no este vacía
             while(!colaAuxiliar.esVacia()){
                 //  Consigo el frente de la cola y lo saco
-                nodoAux = (NodoAVL) colaAuxiliar.obtenerFrente();
+                nodoAux = (NodoAVLDicc) colaAuxiliar.obtenerFrente();
                 colaAuxiliar.sacar();
                 //  Luego inserto ese elemento al final de la lista.
-                resultado.insertar(nodoAux.getElem());
+                resultado.insertar(nodoAux.getClave(), nodoAux.getDato());
                 //  Y en caso de tener hijos los pongo en la cola
                 if(nodoAux.getIzquierdo() != null) colaAuxiliar.poner(nodoAux.getIzquierdo());
                 if(nodoAux.getDerecho() != null) colaAuxiliar.poner(nodoAux.getDerecho());
@@ -548,7 +532,7 @@ public class ArbolAVL {
             //  Cola para ir almacenando los nodos
             Cola colaAuxiliar = new Cola();
             //  auxiliar para recorrer la estructura
-            NodoAVL nodoAux;
+            NodoAVLDicc nodoAux;
 
             //  Empiezo poniendo la raiz en la cola
             colaAuxiliar.poner(raiz);
@@ -556,20 +540,20 @@ public class ArbolAVL {
             //  Mientras la cola no este vacía
             while(!colaAuxiliar.esVacia()){
                 //  Consigo el frente de la cola y lo saco
-                nodoAux = (NodoAVL) colaAuxiliar.obtenerFrente();
+                nodoAux = (NodoAVLDicc) colaAuxiliar.obtenerFrente();
                 colaAuxiliar.sacar();
                 
                 //  Variables para referencias mas facilmente a los hijos, ademas de no tener que llamar a la funcion multiples veces
-                NodoAVL izquierdo = nodoAux.getIzquierdo();
-                NodoAVL derecho = nodoAux.getDerecho();
+                NodoAVLDicc izquierdo = nodoAux.getIzquierdo();
+                NodoAVLDicc derecho = nodoAux.getDerecho();
                 
                 //  Luego agrego el elemento al String
-                resultado += "\n" + nodoAux.getElem().toString() + " --> ";
+                resultado += "\n {" + nodoAux.getClave().toString() + ", "+ nodoAux.getDato().toString() + "}" + " --> ";
             
                 //  Si el izquierdo existe
                 if(izquierdo != null){
                     //  Agrega su elemento al String
-                    resultado += izquierdo.getElem().toString();
+                    resultado += "{" + izquierdo.getClave().toString() + ", "+ izquierdo.getDato().toString() + "}";
                 }
                 
                 //  Coma para separar elementos o saber cual es hijo izquierdo y derecho
@@ -577,7 +561,7 @@ public class ArbolAVL {
 
                 //  Si el derecho existe, lo agrega
                 if(derecho != null){
-                    resultado += derecho.getElem().toString();
+                    resultado += "{" + derecho.getClave().toString() + ", "+ derecho.getDato().toString()+ "}";
                 }
                 
                 //  Y en caso de tener hijos los pongo en la cola
