@@ -117,7 +117,7 @@ public class Lista {
         //  Variable para saber en que posicion estamos
         int posAux = 1;
         
-        //  Recorre la estructura hasta encontrar el elemento buscado o llegar al final
+        //  Recorre la estructura hasta llegar al final o encontrar el elemento buscado
         while(posAux <= this.longitud && resultado == -1){
             //  Si es el elemento buscado
             if(aux.getElem().equals(elem)){
