@@ -1,16 +1,16 @@
 package tests.propositoEspecifico;
 
-import propositoEspecifico.DiccionarioHash;
+import propositoEspecifico.DiccionarioHashString;
 import lineales.dinamicas.Lista;
 import utiles.Aleatorio;
 
-public class TestDiccionarioHash {
+public class TestDiccionarioHashString {
       
     public static void main(String args[]){
         
         System.out.println("********  Test para diccionario ********");
 
-        DiccionarioHash dic1 = new DiccionarioHash();
+        DiccionarioHashString dic1 = new DiccionarioHashString();
         Lista listaAux = new Lista();
         listaAux.insertar(new Prueba("Cero", 0), 1);
         listaAux.insertar(new Prueba("Uno", 1), 2);
@@ -33,7 +33,7 @@ public class TestDiccionarioHash {
         }
         
         System.out.println();
-        DiccionarioHash dic2 = dic1.clone();
+        DiccionarioHashString dic2 = dic1.clone();
         System.out.println("A) Dic 1 y Dic 2, son iguales?");
         System.out.println("Dic 1: " + dic1.toString());
         System.out.println("Dic 2: " + dic2.toString());

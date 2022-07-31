@@ -4,7 +4,7 @@ import Hash.FuncionesString;
 import lineales.dinamicas.Lista;
 import lineales.dinamicas.Pila;
 
-public class DiccionarioHash {
+public class DiccionarioHashString {
     
     private static final int TAMANIO = 30;
     private NodoHashDicc[] tabla;
@@ -12,7 +12,7 @@ public class DiccionarioHash {
     
     
     //  Crea una estructura sin elementos.
-    public DiccionarioHash(){
+    public DiccionarioHashString(){
         tabla = new NodoHashDicc[TAMANIO];
         cant = 0;
     }
@@ -229,10 +229,10 @@ public class DiccionarioHash {
     }
     
     @Override
-    public DiccionarioHash clone(){
+    public DiccionarioHashString clone(){
         
         //  Diccionario clon que se pasara como resultado final
-        DiccionarioHash resultado = new DiccionarioHash();
+        DiccionarioHashString resultado = new DiccionarioHashString();
         
         //  Entero para saber en que posicion nos encontramos
         int posicion = 0;

@@ -1,6 +1,5 @@
 package grafos;
 
-import java.io.IOError;
 import lineales.dinamicas.Cola;
 import lineales.dinamicas.Lista;
 import propositoEspecifico.Conjunto;

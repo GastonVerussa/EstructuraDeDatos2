@@ -21,6 +21,10 @@ public class ArbolBin {
         raiz = -1;
     }
     
+    public ArbolBin(int TAMANIO){
+        
+    }
+    
     /*  Dado un elemento elemNuevo y un elemento elemPadre, inserta elemNuevo como hijo izquierdo o
         derecho de la primer aparición de elemPadre, según lo indique el parámetro posicion. Para que la operación
         termine con éxito debe existir un nodo en el árbol con elemento = elemPadre y ese nodo debe tener libre
