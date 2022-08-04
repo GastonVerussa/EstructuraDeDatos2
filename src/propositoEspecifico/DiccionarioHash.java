@@ -1,6 +1,6 @@
 package propositoEspecifico;
 
-import Hash.*;
+import FuncionesHash.*;
 import lineales.dinamicas.Lista;
 import lineales.dinamicas.Pila;
 

@@ -1,8 +1,7 @@
 
 package conjuntistas;
 
-import Hash.FuncionesEnteros;
-import Hash.FuncionesString;
+import FuncionesHash.*;
 import lineales.dinamicas.Lista;
 
 public class TablaHash {
