@@ -1,16 +1,16 @@
 package tests.grafos;
 
-import grafos.GrafoEtiquetadoIntMod;
+import grafos.GrafoEtiquetado;
 import lineales.dinamicas.Lista;
 import utiles.*;
 
-public class TestGrafoEtiquetadoIntMod {
+public class TestGrafoEtiquetado {
     
     public static void main(String args[]){
         
         System.out.println("********  Test para grafo etiquetado para enteros ********");
         
-        GrafoEtiquetadoIntMod grafo1 = new GrafoEtiquetadoIntMod();
+        GrafoEtiquetado grafo1 = new GrafoEtiquetado();
         
         String[] locaciones = {"Bosque", "Pantano", "Muelle", "Rio", "Plano", "Isla", "Montaña"};
         
@@ -45,7 +45,7 @@ public class TestGrafoEtiquetadoIntMod {
         System.out.println(grafo1.toString());
         
         System.out.println("Clonamos grafo1 a grafo2. Imprimiendo grafo 2: ");
-        GrafoEtiquetadoIntMod grafo2 = grafo1.clone();
+        GrafoEtiquetado grafo2 = grafo1.clone();
         System.out.println(grafo2.toString());
         
         System.out.println("A) Existen los siguientes vertices?");
@@ -69,9 +69,9 @@ public class TestGrafoEtiquetadoIntMod {
         System.out.println("Pantano a Rio: " + grafo1.recuperarEtiqueta("Pantano", "Rio"));
         
         System.out.println("E) Conseguir adyacentes a vertices:");
-        System.out.println("Bosque: " + grafo1.conseguirAdyacentes("Bosque"));
-        System.out.println("Isla: " + grafo1.conseguirAdyacentes("Isla"));
-        System.out.println("Rio: " + grafo1.conseguirAdyacentes("Rio"));
+        System.out.println("Bosque: " + grafo1.obtenerAdyacentes("Bosque"));
+        System.out.println("Isla: " + grafo1.obtenerAdyacentes("Isla"));
+        System.out.println("Rio: " + grafo1.obtenerAdyacentes("Rio"));
         
         System.out.println("F) Listar en ");
         System.out.println("Anchura: " + grafo1.listarEnAnchura().toString());
@@ -80,16 +80,9 @@ public class TestGrafoEtiquetadoIntMod {
         System.out.println("G) Conseguir todos los caminos de Bosque a Montaña:");
         System.out.println(grafo1.caminosPosibles("Bosque", "Montaña").toString());
         
-        System.out.println("H) Conseguir caminos de Bosque a Montaña de menor distancia que 600km:");
-        System.out.println(grafo1.caminosMenoresKm("Bosque", "Montaña", 600).toString());
-        
-        System.out.println("I) Conseguir caminos de Bosque a Montaña que no pasen por Pantano:");
-        System.out.println(grafo1.caminosPosiblesSinVertice("Bosque", "Montaña", "Pantano").toString());
-        
         System.out.println("J) Conseguir ciertos caminos de Bosque a Montaña:");
         System.out.println("Camino con menos vertices: " + grafo1.caminoMasCorto("Bosque", "Montaña").toString());
         System.out.println("Camino con mas vertices: " + grafo1.caminoMasLargo("Bosque", "Montaña").toString());
-        System.out.println("Camino menor distancia en km: " + grafo1.caminoMasCortoEtiqueta("Bosque", "Montaña").toString());
         
         System.out.println("K) Intentamos eliminar los siguientes arcos: ");
         System.out.println("Bosque a Isla: " + grafo1.eliminarArco("Bosque", "Isla"));

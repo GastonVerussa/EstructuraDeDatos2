@@ -758,6 +758,10 @@ public class GrafoEtiquetado {
         
         return resultado;
     }
+    
+    public void vaciar(){
+        this.inicio = null;
+    }
            
     //  Genera y devuelve un grafo que es equivalente (igual estructura y contenido 
     //      de los nodos) al original. 
