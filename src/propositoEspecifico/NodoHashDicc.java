@@ -2,17 +2,17 @@ package propositoEspecifico;
 
 public class NodoHashDicc {
     
-    private String clave;
+    private Object clave;
     private Object dato;
     private NodoHashDicc enlace;
     
-    public NodoHashDicc(String clave, Object dato, NodoHashDicc enlace){
+    public NodoHashDicc(Object clave, Object dato, NodoHashDicc enlace){
         this.clave = clave;
         this.dato = dato;
         this.enlace = enlace;
     }
     
-    public String getClave(){
+    public Object getClave(){
         return this.clave;
     }
     
@@ -24,7 +24,7 @@ public class NodoHashDicc {
         return this.enlace;
     }
     
-    public void setClave(String clave){
+    public void setClave(Object clave){
         this.clave = clave;
     }
     

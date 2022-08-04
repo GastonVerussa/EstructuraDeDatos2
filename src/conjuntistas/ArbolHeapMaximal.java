@@ -70,7 +70,7 @@ public class ArbolHeapMaximal{
         
         boolean exito;
         
-        if(ultimo == 0){
+        if(this.esVacio()){
             exito = false;
         } else {
             exito = true;
@@ -88,7 +88,6 @@ public class ArbolHeapMaximal{
         int posHijo;
         Comparable aux = heap[posPadre];
         boolean salir = false;
-        System.out.println("Elemento a eliminar " + aux.toString() + " esta en: " + posPadre);
         
         while(!salir){
             //  Calcula la posicion del hijo izquierdo
@@ -108,7 +107,6 @@ public class ArbolHeapMaximal{
                 
                 //  Compara el hijo mayor con el padre
                 if(heap[posHijo].compareTo(aux) > 0){
-                    System.out.println(heap[posHijo].toString() + " mayor que: " + aux.toString());
                     //  Si es mayor, los intercambia
                     heap[posPadre] = heap[posHijo];
                     posPadre = posHijo;
@@ -117,7 +115,6 @@ public class ArbolHeapMaximal{
                     salir = true;
                 }
             }
-            System.out.println(aux.toString() + " esta en: " + posPadre);
         }
         
         heap[posPadre] = aux;

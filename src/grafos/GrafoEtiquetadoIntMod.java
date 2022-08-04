@@ -8,7 +8,7 @@ import utiles.Par;
 public class GrafoEtiquetadoIntMod {
     
     //  Variable para mantener puntero al inicio
-    private NodoVert inicio;
+    private NodoVertInt inicio;
     
     //  Constructor, lo crea vacio
     public GrafoEtiquetadoIntMod(){
@@ -27,7 +27,7 @@ public class GrafoEtiquetadoIntMod {
         //  Si esta vacio
         if(this.esVacio()){
             //  Lo crea como el primer y nuevo vertice
-            inicio = new NodoVert(vertice, null);
+            inicio = new NodoVertInt(vertice, null);
         } else {
             
             /*
@@ -52,7 +52,7 @@ public class GrafoEtiquetadoIntMod {
             
             //  Si el vertice no existe
             if(ubicarVertice(vertice) == null){
-                inicio = new NodoVert(vertice, inicio);
+                inicio = new NodoVertInt(vertice, inicio);
             } else {
                 exito = false;
             }
@@ -74,9 +74,9 @@ public class GrafoEtiquetadoIntMod {
         if(!this.esVacio()){
             //  Si no esta vacio
             //  Aux sirve para recorrer la estructura buscando el vertice correcto
-            NodoVert aux = inicio;
+            NodoVertInt aux = inicio;
             //  Variable para tener referencia al padre de aux
-            NodoVert padreAux = null;
+            NodoVertInt padreAux = null;
 
             //  Mientras no haya recorrido toda la estructura ni haya encontrado el elemento
             while(aux != null && !exito){
@@ -94,19 +94,19 @@ public class GrafoEtiquetadoIntMod {
             }
 
             if(exito){
-                NodoAdy auxAdy = aux.getPrimerAdy();
+                NodoAdyInt auxAdy = aux.getPrimerAdy();
 
                 while(auxAdy != null){
 
-                    NodoVert auxVert2 = auxAdy.getVertice();
+                    NodoVertInt auxVert2 = auxAdy.getVertice();
 
-                    NodoAdy auxAdy2 = auxVert2.getPrimerAdy();
+                    NodoAdyInt auxAdy2 = auxVert2.getPrimerAdy();
 
                     if(auxAdy2.getVertice().getElem().equals(vertice)){
                         auxVert2.setPrimerAdy(auxAdy2.getSigAdyacente());
                     } else {
                         boolean encontrado = false;
-                        NodoAdy padreAuxAdy2 = auxAdy2;
+                        NodoAdyInt padreAuxAdy2 = auxAdy2;
                         auxAdy2 = auxAdy2.getSigAdyacente();
 
                         while(!encontrado){
@@ -187,12 +187,12 @@ public class GrafoEtiquetadoIntMod {
             //      ambos vertices, por lo que no hace nada y entrega false.
             */
             
-        Par<NodoVert, NodoVert> vertices = ubicarVertices(origen, destino);
+        Par<NodoVertInt, NodoVertInt> vertices = ubicarVertices(origen, destino);
         
         if(vertices.getValor1() != null && vertices.getValor2() != null){
             //  Si fueron encontrados los vertices, entonces 
             //      crea una variable para recorrer los adyacentes al vertice origen
-            NodoAdy auxAdy = vertices.getValor1().getPrimerAdy();
+            NodoAdyInt auxAdy = vertices.getValor1().getPrimerAdy();
             boolean existeArco = false;
 
             while(auxAdy != null && !existeArco){
@@ -204,8 +204,8 @@ public class GrafoEtiquetadoIntMod {
             }
 
             if(!existeArco){
-                vertices.getValor1().setPrimerAdy(new NodoAdy(vertices.getValor2(), etiqueta, vertices.getValor1().getPrimerAdy()));
-                vertices.getValor2().setPrimerAdy(new NodoAdy(vertices.getValor1(), etiqueta, vertices.getValor2().getPrimerAdy()));
+                vertices.getValor1().setPrimerAdy(new NodoAdyInt(vertices.getValor2(), etiqueta, vertices.getValor1().getPrimerAdy()));
+                vertices.getValor2().setPrimerAdy(new NodoAdyInt(vertices.getValor1(), etiqueta, vertices.getValor2().getPrimerAdy()));
                 exito = true;
             }
         }
@@ -226,10 +226,10 @@ public class GrafoEtiquetadoIntMod {
         //  Si esta vacio claramente no existen los vertices, devuelve el exito falso
         if(!this.esVacio()){
             
-            Par<NodoVert, NodoVert> vertices = ubicarVertices(origen, destino);
+            Par<NodoVertInt, NodoVertInt> vertices = ubicarVertices(origen, destino);
             //  Variables para guardar el lugar de los vertices
-            NodoVert verticeOrigen = vertices.getValor1();
-            NodoVert verticeDestino = vertices.getValor2();
+            NodoVertInt verticeOrigen = vertices.getValor1();
+            NodoVertInt verticeDestino = vertices.getValor2();
             
             /*
             //  Variable para recorrer la estructura
@@ -273,7 +273,7 @@ public class GrafoEtiquetadoIntMod {
             if(verticeOrigen != null && verticeDestino != null){
                 
                 //  Variable que se usa para recorrer la estructura de adyacentes a ambos vertices
-                NodoAdy auxAdy = verticeOrigen.getPrimerAdy();
+                NodoAdyInt auxAdy = verticeOrigen.getPrimerAdy();
                 
                 //  Variable de control para saber si hubo exito en encontrar 
                 //      y borrer el arco desde origen a destino
@@ -291,7 +291,7 @@ public class GrafoEtiquetadoIntMod {
                     } else {
                         //  En caso de que no sea el primero
                         //  Se crea esta nueva variable para tener un puntero al auxiliar
-                        NodoAdy padreAuxAdy = auxAdy;
+                        NodoAdyInt padreAuxAdy = auxAdy;
                         //  Se va al siguiente nodo adyacente
                         auxAdy = auxAdy.getSigAdyacente();
                         
@@ -338,7 +338,7 @@ public class GrafoEtiquetadoIntMod {
                         exito = true;
                     } else {
                         //  Variable para tener puntero siempre al padre del auxiliar
-                        NodoAdy padreAuxAdy = auxAdy;
+                        NodoAdyInt padreAuxAdy = auxAdy;
                         //  El auxiliar pasa al siguiente
                         auxAdy = auxAdy.getSigAdyacente();
 
@@ -405,7 +405,7 @@ public class GrafoEtiquetadoIntMod {
         //  Si esta vacio claramente no existen los vertices, devuelve el existe falso
         if(!this.esVacio()){
             
-            Par<NodoVert, NodoVert> vertices = ubicarVertices(origen, destino);
+            Par<NodoVertInt, NodoVertInt> vertices = ubicarVertices(origen, destino);
             /* 
             //  Variables para guardar el lugar de los vertices
             NodoVert verticeOrigen = null;
@@ -449,7 +449,7 @@ public class GrafoEtiquetadoIntMod {
             //      ambos vertices, por lo que no hace nada y entrega false.
             if(vertices.getValor1() != null && vertices.getValor2() != null){
                 //  Variable que se usa para recorrer la estructura de adyacentes al origen
-                NodoAdy auxAdy = vertices.getValor1().getPrimerAdy();
+                NodoAdyInt auxAdy = vertices.getValor1().getPrimerAdy();
                 
                 //  Si el vertice de origen no tiene adyacentes, no existe el arco
                 if(auxAdy != null){
@@ -485,7 +485,7 @@ public class GrafoEtiquetadoIntMod {
         //  Si esta vacio claramente no existen los vertices, devuelve -1
         if(!this.esVacio()){
             
-            Par<NodoVert, NodoVert> vertices = ubicarVertices(origen, destino);
+            Par<NodoVertInt, NodoVertInt> vertices = ubicarVertices(origen, destino);
             /*
             //  Variables para guardar el lugar de los vertices
             NodoVert verticeOrigen = null;
@@ -529,7 +529,7 @@ public class GrafoEtiquetadoIntMod {
             //      ambos vertices, por lo que no hace nada y entrega false.
             if(vertices.getValor1() != null && vertices.getValor2() != null){
                 //  Variable que se usa para recorrer la estructura de adyacentes al origen
-                NodoAdy auxAdy = vertices.getValor1().getPrimerAdy();
+                NodoAdyInt auxAdy = vertices.getValor1().getPrimerAdy();
                 
                 //  Si el vertice de origen no tiene adyacentes, no existe el arco
                 if(auxAdy != null){
@@ -564,7 +564,7 @@ public class GrafoEtiquetadoIntMod {
         //  Si esta vacio claramente no existen los vertices, devuelve el existe falso
         if(!this.esVacio()){
             
-            Par<NodoVert, NodoVert> vertices = ubicarVertices(origen, destino);
+            Par<NodoVertInt, NodoVertInt> vertices = ubicarVertices(origen, destino);
             
             /*
             //  Variables para guardar el lugar de los vertices
@@ -621,13 +621,13 @@ public class GrafoEtiquetadoIntMod {
         
     //  Funcion privada auxiliar para la funcion de existe camino. Recorre recursivamente todos sus
     //      adyacentes que no hayan sido visitados
-    private boolean existeCaminoAux(NodoVert vertice, Object destino, Conjunto verticesRecorridos){
+    private boolean existeCaminoAux(NodoVertInt vertice, Object destino, Conjunto verticesRecorridos){
         
         //  Variable para guardar el exito
         boolean existe = false;
         
         //  Auxiliar para recorrer los nodos adyacentes del nodo vertice
-        NodoAdy aux = vertice.getPrimerAdy();
+        NodoAdyInt aux = vertice.getPrimerAdy();
         
         //  Si no tiene adyacentes devolvemos false, que no existe en este camino
         if(aux != null){
@@ -636,7 +636,7 @@ public class GrafoEtiquetadoIntMod {
             
             do{
                 //  Variable para referenciar mas facilmente el vertice del adyacente actual
-                NodoVert auxVert = aux.getVertice();
+                NodoVertInt auxVert = aux.getVertice();
                 
                 //  Si es el que buscamos, entonces existe un camino
                 if(auxVert.getElem().equals(destino)){
@@ -889,7 +889,7 @@ public class GrafoEtiquetadoIntMod {
         
         Lista resultado = new Lista();
         
-        NodoVert aux = inicio;
+        NodoVertInt aux = inicio;
         
         while(aux != null){
             if(resultado.localizar(aux.getElem()) < 0){
@@ -902,11 +902,11 @@ public class GrafoEtiquetadoIntMod {
     }
 
     //  Funcion privada auxiliar para listarEnProfundidad
-    private void profundidadDesde(NodoVert vertice, Lista visitados){
+    private void profundidadDesde(NodoVertInt vertice, Lista visitados){
         
         visitados.insertar(vertice.getElem(), visitados.longitud() + 1);
         
-        NodoAdy aux = vertice.getPrimerAdy();
+        NodoAdyInt aux = vertice.getPrimerAdy();
         
         while(aux != null){
             if(visitados.localizar(aux.getVertice().getElem()) < 0){
@@ -922,7 +922,7 @@ public class GrafoEtiquetadoIntMod {
         
         Lista resultado = new Lista();
         
-        NodoVert aux = inicio;
+        NodoVertInt aux = inicio;
         
         while(aux != null){
             if(resultado.localizar(aux.getElem()) < 0){
@@ -935,18 +935,18 @@ public class GrafoEtiquetadoIntMod {
     }
         
     //  Funcion privada auxiliar para listarEnAnchura
-    private void anchuraDesde(NodoVert vertice, Lista visitados){
+    private void anchuraDesde(NodoVertInt vertice, Lista visitados){
         
         Cola colaAux = new Cola();
         
         visitados.insertar(vertice.getElem(), visitados.longitud() + 1);
         
         colaAux.poner(vertice);
-        NodoVert auxVert;
-        NodoAdy auxAdy;
+        NodoVertInt auxVert;
+        NodoAdyInt auxAdy;
         
         while(!colaAux.esVacia()){
-            auxVert = (NodoVert) colaAux.obtenerFrente();
+            auxVert = (NodoVertInt) colaAux.obtenerFrente();
             colaAux.sacar();
             auxAdy = auxVert.getPrimerAdy();
             while(auxAdy != null){
@@ -977,7 +977,7 @@ public class GrafoEtiquetadoIntMod {
         GrafoEtiquetadoIntMod resultado = new GrafoEtiquetadoIntMod();
         
         //  Nodo vertice auxiliar que usaremos para recorrer la estructura
-        NodoVert aux = inicio;
+        NodoVertInt aux = inicio;
         
         //  Primero inserta todos los vertices, ya que si intentamos insertar algun arco
         //      a un vertice que no exista no funcionara
@@ -994,7 +994,7 @@ public class GrafoEtiquetadoIntMod {
         aux = inicio;
         //  Nodo adyacente auxiliar que nos servira para recorrer todos los adyacentes
         //      de un nodo vertice dado, es decir, sus arcos
-        NodoAdy auxAdy;
+        NodoAdyInt auxAdy;
         
         //  Recorremos toda la estructura nuevamente
         while(aux != null){
@@ -1039,13 +1039,13 @@ public class GrafoEtiquetadoIntMod {
         } else {
             
             resultado = "Formato de grafo. <elementoVertice> : {<destinoArco>, <etiquetaArco>} -  ... \n";
-            NodoVert aux = inicio;
+            NodoVertInt aux = inicio;
 
             while(aux != null){
                 
                 resultado += "\n " + aux.getElem().toString() + ": ";
                 
-                NodoAdy auxAdy = aux.getPrimerAdy();
+                NodoAdyInt auxAdy = aux.getPrimerAdy();
                 
                 while(auxAdy != null){
                     resultado += " { " + auxAdy.getVertice().getElem().toString() + ", " + auxAdy.getEtiqueta() + " } -";
@@ -1067,12 +1067,12 @@ public class GrafoEtiquetadoIntMod {
         Lista resultado = new Lista();
         
         //  Nodo vertice auxiliar que guarda la posicion del vertice buscado
-        NodoVert nodoVertice = ubicarVertice(vertice);
+        NodoVertInt nodoVertice = ubicarVertice(vertice);
         
         //  Si existe
         if(nodoVertice != null){
             //  Nodo adyacente auxiliar para recorrer todos los adyacentes del vertice
-            NodoAdy auxAdy = nodoVertice.getPrimerAdy();
+            NodoAdyInt auxAdy = nodoVertice.getPrimerAdy();
             
             //  Mientras queden adyacentes por recorrer
             while(auxAdy != null){
@@ -1363,7 +1363,7 @@ public class GrafoEtiquetadoIntMod {
         if(!this.esVacio()){
             
             //  Consigue ambos vertices
-            Par<NodoVert, NodoVert> vertices = ubicarVertices(origen, destino);
+            Par<NodoVertInt, NodoVertInt> vertices = ubicarVertices(origen, destino);
             
             //  Si luego del while no fueron encontrados, entonces no existen
             //      ambos vertices, por lo que no hace nada y entrega la lista vacia.
@@ -1381,12 +1381,12 @@ public class GrafoEtiquetadoIntMod {
         return resultado;
     }
     
-    private void caminosMenoresKmAux(NodoVert vertice, Object destino, int limiteKm, Camino caminoRecorrido, Lista resultado){
+    private void caminosMenoresKmAux(NodoVertInt vertice, Object destino, int limiteKm, Camino caminoRecorrido, Lista resultado){
         //  Variable para referenciar al recorrido mas facil
         Lista recorrido = caminoRecorrido.getRecorrido();
         
         //  Variable para recorrer el arreglo
-        NodoAdy aux = vertice.getPrimerAdy();
+        NodoAdyInt aux = vertice.getPrimerAdy();
         Camino caminoAux;
         
         //  Mientras no se hayan recorrido todos los adyacentes
@@ -1429,7 +1429,7 @@ public class GrafoEtiquetadoIntMod {
         if(!this.esVacio()){
             
             //  Consigue ambos vertices
-            Par<NodoVert, NodoVert> vertices = ubicarVertices(origen, destino);
+            Par<NodoVertInt, NodoVertInt> vertices = ubicarVertices(origen, destino);
             
             //  Si luego del while no fueron encontrados, entonces no existen
             //      ambos vertices, por lo que no hace nada y entrega la lista vacia.
@@ -1447,13 +1447,13 @@ public class GrafoEtiquetadoIntMod {
         return resultado;
     }
     
-    private void caminosPosiblesAux(NodoVert vertice, Object destino, Camino caminoRecorrido, Lista resultado){
+    private void caminosPosiblesAux(NodoVertInt vertice, Object destino, Camino caminoRecorrido, Lista resultado){
         
         //  Variable para referenciar al recorrido mas facil
         Lista recorrido = caminoRecorrido.getRecorrido();
         
         //  Variable para recorrer el arreglo
-        NodoAdy aux = vertice.getPrimerAdy();
+        NodoAdyInt aux = vertice.getPrimerAdy();
         Camino caminoAux;
         
         //  Mientras no se hayan recorrido todos los adyacentes
@@ -1494,7 +1494,7 @@ public class GrafoEtiquetadoIntMod {
         if(!this.esVacio()){
             
             //  Consigue ambos vertices
-            Par<NodoVert, NodoVert> vertices = ubicarVertices(origen, destino);
+            Par<NodoVertInt, NodoVertInt> vertices = ubicarVertices(origen, destino);
             
             //  Si luego del while no fueron encontrados, entonces no existen
             //      ambos vertices, por lo que no hace nada y entrega la lista vacia.
@@ -1512,13 +1512,13 @@ public class GrafoEtiquetadoIntMod {
         return resultado;
     }
     
-    private void caminosPosiblesSinVerticeAux(NodoVert vertice, Object destino, Object verticeIgnorada, Camino caminoRecorrido, Lista resultado){
+    private void caminosPosiblesSinVerticeAux(NodoVertInt vertice, Object destino, Object verticeIgnorada, Camino caminoRecorrido, Lista resultado){
         
         //  Variable para referenciar al recorrido mas facil
         Lista recorrido = caminoRecorrido.getRecorrido();
         
         //  Variable para recorrer el arreglo
-        NodoAdy aux = vertice.getPrimerAdy();
+        NodoAdyInt aux = vertice.getPrimerAdy();
         Camino caminoAux;
         
         //  Mientras no se hayan recorrido todos los adyacentes
@@ -1567,14 +1567,14 @@ public class GrafoEtiquetadoIntMod {
         
     }
     
-    private NodoVert ubicarVertice(Object vertice){
+    private NodoVertInt ubicarVertice(Object vertice){
         
-        NodoVert resultado = null;
+        NodoVertInt resultado = null;
         
         //  Si esta vacio, no se hace nada, devuelve null
         if(!this.esVacio()){
             //  Aux sirve para recorrer la estructura buscando el vertice correcto
-            NodoVert aux = inicio;
+            NodoVertInt aux = inicio;
 
             //  Mientras no haya recorrido toda la estructura ni haya encontrado el elemento
             while(aux != null && resultado == null){
@@ -1592,12 +1592,12 @@ public class GrafoEtiquetadoIntMod {
         return resultado;
     }
     
-    private Par<NodoVert, NodoVert> ubicarVertices(Object origen, Object destino){
+    private Par<NodoVertInt, NodoVertInt> ubicarVertices(Object origen, Object destino){
         
-        Par<NodoVert, NodoVert> resultado = new Par(null, null);
+        Par<NodoVertInt, NodoVertInt> resultado = new Par(null, null);
 
         //  Variable para recorrer la estructura
-        NodoVert aux = inicio;
+        NodoVertInt aux = inicio;
         //  Variable para saber cuando fueron encontrados ambos vertices y no recorrer
         //      de mas la estructura
         boolean encontrados = false;

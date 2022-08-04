@@ -7,7 +7,7 @@ import propositoEspecifico.Conjunto;
 public class GrafoEtiquetadoInt {
     
     //  Variable para mantener puntero al inicio
-    private NodoVert inicio;
+    private NodoVertInt inicio;
     
     //  Constructor, lo crea vacio
     public GrafoEtiquetadoInt(){
@@ -25,11 +25,11 @@ public class GrafoEtiquetadoInt {
         //  Si esta vacio
         if(this.esVacio()){
             //  Lo crea como el primer y nuevo vertice
-            inicio = new NodoVert(vertice, null);
+            inicio = new NodoVertInt(vertice, null);
         } else {
             //  En caso de que no este vacio
             //  Variable para recorrer el arreglo
-            NodoVert aux = inicio.getSigVertice();
+            NodoVertInt aux = inicio.getSigVertice();
             
             //  Hasta que haya terminado de recorder todo o haya encontrado un vertice igual
             while(aux != null && exito){
@@ -44,7 +44,7 @@ public class GrafoEtiquetadoInt {
             }
             
             //  Una vez que termina, si hubo exito (O sea no hubo fallo)
-            if(exito) inicio = new NodoVert(vertice, inicio);
+            if(exito) inicio = new NodoVertInt(vertice, inicio);
         }
         
         return exito;
@@ -71,9 +71,9 @@ public class GrafoEtiquetadoInt {
             } else {
                 //  Si no es el primer vertice, entonces creamos dos variables
                 //  Aux sirve para recorrer la estructura buscando el vertice correcto
-                NodoVert aux = inicio.getSigVertice();
+                NodoVertInt aux = inicio.getSigVertice();
                 //  Y padreAux va guardando el padre de aux que servira mas adelante
-                NodoVert padreAux = inicio;
+                NodoVertInt padreAux = inicio;
                 
                 //  Mientras no haya recorrido toda la estructura ni haya encontrado el elemento
                 while(aux != null && !exito){
@@ -108,11 +108,11 @@ public class GrafoEtiquetadoInt {
         //  Si esta vacio claramente no existen los vertices, devuelve el exito falso
         if(!this.esVacio()){
             //  Variables para guardar el lugar de los vertices
-            NodoVert verticeOrigen = null;
-            NodoVert verticeDestino = null;
+            NodoVertInt verticeOrigen = null;
+            NodoVertInt verticeDestino = null;
             
             //  Variable para recorrer la estructura
-            NodoVert aux = inicio;
+            NodoVertInt aux = inicio;
             //  Variable para saber cuando fueron encontrados ambos vertices y no recorrer
             //      de mas la estructura
             boolean encontrados = false;
@@ -149,7 +149,7 @@ public class GrafoEtiquetadoInt {
             if(encontrados){
                 //  Si fueron encontrados los vertices, entonces 
                 //      crea una variable para recorrer los adyacentes al vertice origen
-                NodoAdy auxAdy = verticeOrigen.getPrimerAdy();
+                NodoAdyInt auxAdy = verticeOrigen.getPrimerAdy();
                 boolean existeArco = false;
                 
                 while(auxAdy != null && !existeArco){
@@ -161,8 +161,8 @@ public class GrafoEtiquetadoInt {
                 }
                 
                 if(!existeArco){
-                    verticeOrigen.setPrimerAdy(new NodoAdy(verticeDestino, etiqueta, verticeOrigen.getPrimerAdy()));
-                    verticeDestino.setPrimerAdy(new NodoAdy(verticeOrigen, etiqueta, verticeDestino.getPrimerAdy()));
+                    verticeOrigen.setPrimerAdy(new NodoAdyInt(verticeDestino, etiqueta, verticeOrigen.getPrimerAdy()));
+                    verticeDestino.setPrimerAdy(new NodoAdyInt(verticeOrigen, etiqueta, verticeDestino.getPrimerAdy()));
                     exito = true;
                 }
             }
@@ -183,11 +183,11 @@ public class GrafoEtiquetadoInt {
         //  Si esta vacio claramente no existen los vertices, devuelve el exito falso
         if(!this.esVacio()){
             //  Variables para guardar el lugar de los vertices
-            NodoVert verticeOrigen = null;
-            NodoVert verticeDestino = null;
+            NodoVertInt verticeOrigen = null;
+            NodoVertInt verticeDestino = null;
             
             //  Variable para recorrer la estructura
-            NodoVert aux = inicio;
+            NodoVertInt aux = inicio;
             //  Variable para saber cuando fueron encontrados ambos vertices y no recorrer
             //      de mas la estructura
             boolean encontrados = false;
@@ -224,7 +224,7 @@ public class GrafoEtiquetadoInt {
             if(encontrados){
                 
                 //  Variable que se usa para recorrer la estructura de adyacentes a ambos vertices
-                NodoAdy auxAdy = verticeOrigen.getPrimerAdy();
+                NodoAdyInt auxAdy = verticeOrigen.getPrimerAdy();
                 
                 //  Variable de control para saber si hubo exito en encontrar 
                 //      y borrer el arco desde origen a destino
@@ -242,7 +242,7 @@ public class GrafoEtiquetadoInt {
                     } else {
                         //  En caso de que no sea el primero
                         //  Se crea esta nueva variable para tener un puntero al auxiliar
-                        NodoAdy padreAuxAdy = auxAdy;
+                        NodoAdyInt padreAuxAdy = auxAdy;
                         //  Se va al siguiente nodo adyacente
                         auxAdy = auxAdy.getSigAdyacente();
                         
@@ -289,7 +289,7 @@ public class GrafoEtiquetadoInt {
                         exito = true;
                     } else {
                         //  Variable para tener puntero siempre al padre del auxiliar
-                        NodoAdy padreAuxAdy = auxAdy;
+                        NodoAdyInt padreAuxAdy = auxAdy;
                         //  El auxiliar pasa al siguiente
                         auxAdy = auxAdy.getSigAdyacente();
 
@@ -327,7 +327,7 @@ public class GrafoEtiquetadoInt {
         if(!this.esVacio()){
             //  Si no esta vacio, se lo debe buscar
             //  Variable para recorrer el arreglo
-            NodoVert aux = inicio;
+            NodoVertInt aux = inicio;
             
             //  Hasta que haya terminado de recorder todo o haya encontrado el vertice
             while(aux != null && !existe){
@@ -355,11 +355,11 @@ public class GrafoEtiquetadoInt {
         //  Si esta vacio claramente no existen los vertices, devuelve el existe falso
         if(!this.esVacio()){
             //  Variables para guardar el lugar de los vertices
-            NodoVert verticeOrigen = null;
-            NodoVert verticeDestino = null;
+            NodoVertInt verticeOrigen = null;
+            NodoVertInt verticeDestino = null;
             
             //  Variable para recorrer la estructura
-            NodoVert aux = inicio;
+            NodoVertInt aux = inicio;
             //  Variable para saber cuando fueron encontrados ambos vertices y no recorrer
             //      de mas la estructura
             boolean encontrados = false;
@@ -395,7 +395,7 @@ public class GrafoEtiquetadoInt {
             //      ambos vertices, por lo que no hace nada y entrega false.
             if(encontrados){
                 //  Variable que se usa para recorrer la estructura de adyacentes al origen
-                NodoAdy auxAdy = verticeOrigen.getPrimerAdy();
+                NodoAdyInt auxAdy = verticeOrigen.getPrimerAdy();
                 
                 //  Si el vertice de origen no tiene adyacentes, no existe el arco
                 if(auxAdy != null){
@@ -431,11 +431,11 @@ public class GrafoEtiquetadoInt {
         //  Si esta vacio claramente no existen los vertices, devuelve -1
         if(!this.esVacio()){
             //  Variables para guardar el lugar de los vertices
-            NodoVert verticeOrigen = null;
-            NodoVert verticeDestino = null;
+            NodoVertInt verticeOrigen = null;
+            NodoVertInt verticeDestino = null;
             
             //  Variable para recorrer la estructura
-            NodoVert aux = inicio;
+            NodoVertInt aux = inicio;
             //  Variable para saber cuando fueron encontrados ambos vertices y no recorrer
             //      de mas la estructura
             boolean encontrados = false;
@@ -471,7 +471,7 @@ public class GrafoEtiquetadoInt {
             //      ambos vertices, por lo que no hace nada y entrega false.
             if(encontrados){
                 //  Variable que se usa para recorrer la estructura de adyacentes al origen
-                NodoAdy auxAdy = verticeOrigen.getPrimerAdy();
+                NodoAdyInt auxAdy = verticeOrigen.getPrimerAdy();
                 
                 //  Si el vertice de origen no tiene adyacentes, no existe el arco
                 if(auxAdy != null){
@@ -506,11 +506,11 @@ public class GrafoEtiquetadoInt {
         //  Si esta vacio claramente no existen los vertices, devuelve el existe falso
         if(!this.esVacio()){
             //  Variables para guardar el lugar de los vertices
-            NodoVert verticeOrigen = null;
-            NodoVert verticeDestino = null;
+            NodoVertInt verticeOrigen = null;
+            NodoVertInt verticeDestino = null;
             
             //  Variable para recorrer la estructura
-            NodoVert aux = inicio;
+            NodoVertInt aux = inicio;
             //  Variable para saber cuando fueron encontrados ambos vertices y no recorrer
             //      de mas la estructura
             boolean encontrados = false;
@@ -558,13 +558,13 @@ public class GrafoEtiquetadoInt {
         
     //  Funcion privada auxiliar para la funcion de existe camino. Recorre recursivamente todos sus
     //      adyacentes que no hayan sido visitados
-    private boolean existeCaminoAux(NodoVert vertice, NodoVert destino, Conjunto verticesRecorridos){
+    private boolean existeCaminoAux(NodoVertInt vertice, NodoVertInt destino, Conjunto verticesRecorridos){
         
         //  Variable para guardar el exito
         boolean existe = false;
         
         //  Auxiliar para recorrer los nodos adyacentes del nodo vertice
-        NodoAdy aux = vertice.getPrimerAdy();
+        NodoAdyInt aux = vertice.getPrimerAdy();
         
         //  Si no tiene adyacentes devolvemos false, que no existe en este camino
         if(aux != null){
@@ -573,7 +573,7 @@ public class GrafoEtiquetadoInt {
             
             do{
                 //  Variable para referenciar mas facilmente el vertice del adyacente actual
-                NodoVert auxVert = aux.getVertice();
+                NodoVertInt auxVert = aux.getVertice();
                 
                 //  Si es el que buscamos, entonces existe un camino
                 if(auxVert.equals(destino)){
@@ -611,11 +611,11 @@ public class GrafoEtiquetadoInt {
         //  Si esta vacio claramente no existen los vertices, devuelve la lista vacia
         if(!this.esVacio()){
             //  Variables para guardar el lugar de los vertices
-            NodoVert verticeOrigen = null;
-            NodoVert verticeDestino = null;
+            NodoVertInt verticeOrigen = null;
+            NodoVertInt verticeDestino = null;
             
             //  Variable para recorrer la estructura
-            NodoVert aux = inicio;
+            NodoVertInt aux = inicio;
             //  Variable para saber cuando fueron encontrados ambos vertices y no recorrer
             //      de mas la estructura
             boolean encontrados = false;
@@ -658,7 +658,7 @@ public class GrafoEtiquetadoInt {
     }
        
     //  Funcion privada auxiliar de caminoMasCorto, devuleve el camino mas corto
-    private Lista caminoMasCortoAux(NodoVert vertice, Object destino, Lista caminoRecorrido){
+    private Lista caminoMasCortoAux(NodoVertInt vertice, Object destino, Lista caminoRecorrido){
         
         //  Variable resultado para guardar el camino correcto mas corto, o lista vacia
         //      de no encontrarlo
@@ -668,7 +668,7 @@ public class GrafoEtiquetadoInt {
         caminoRecorrido.insertar(vertice.getElem(), caminoRecorrido.longitud() + 1);
         
         //  Variable para recorrer el arreglo
-        NodoAdy aux = vertice.getPrimerAdy();
+        NodoAdyInt aux = vertice.getPrimerAdy();
         
         //  Variable de control para saber si el destino esta adyacente a vertice, ya
         //      que si esta adyacente, el camino mas corto es el recto y no es necesario
@@ -728,11 +728,11 @@ public class GrafoEtiquetadoInt {
         //  Si esta vacio claramente no existen los vertices, devuelve la lista vacia
         if(!this.esVacio()){
             //  Variables para guardar el lugar de los vertices
-            NodoVert verticeOrigen = null;
-            NodoVert verticeDestino = null;
+            NodoVertInt verticeOrigen = null;
+            NodoVertInt verticeDestino = null;
             
             //  Variable para recorrer la estructura
-            NodoVert aux = inicio;
+            NodoVertInt aux = inicio;
             //  Variable para saber cuando fueron encontrados ambos vertices y no recorrer
             //      de mas la estructura
             boolean encontrados = false;
@@ -777,7 +777,7 @@ public class GrafoEtiquetadoInt {
         return resultado;
     }
     
-    private Lista caminoMasLargoAux(NodoVert vertice, Object destino, Lista caminoRecorrido){
+    private Lista caminoMasLargoAux(NodoVertInt vertice, Object destino, Lista caminoRecorrido){
         
         //  Variable resultado para guardar el camino correcto mas largo, o lista vacia
         //      de no encontrarlo
@@ -787,7 +787,7 @@ public class GrafoEtiquetadoInt {
         caminoRecorrido.insertar(vertice.getElem(), caminoRecorrido.longitud() + 1);
         
         //  Variable para recorrer el arreglo
-        NodoAdy aux = vertice.getPrimerAdy();
+        NodoAdyInt aux = vertice.getPrimerAdy();
         
         //  Mientras no se hayan recorrido todos los adyacentes
         while(aux!=null){
@@ -825,7 +825,7 @@ public class GrafoEtiquetadoInt {
         
         Lista resultado = new Lista();
         
-        NodoVert aux = inicio;
+        NodoVertInt aux = inicio;
         
         while(aux != null){
             if(resultado.localizar(aux.getElem()) < 0){
@@ -838,11 +838,11 @@ public class GrafoEtiquetadoInt {
     }
 
     //  Funcion privada auxiliar para listarEnProfundidad
-    private void profundidadDesde(NodoVert vertice, Lista visitados){
+    private void profundidadDesde(NodoVertInt vertice, Lista visitados){
         
         visitados.insertar(vertice.getElem(), visitados.longitud() + 1);
         
-        NodoAdy aux = vertice.getPrimerAdy();
+        NodoAdyInt aux = vertice.getPrimerAdy();
         
         while(aux != null){
             if(visitados.localizar(aux.getVertice().getElem()) < 0){
@@ -858,7 +858,7 @@ public class GrafoEtiquetadoInt {
         
         Lista resultado = new Lista();
         
-        NodoVert aux = inicio;
+        NodoVertInt aux = inicio;
         
         while(aux != null){
             if(resultado.localizar(aux.getElem()) < 0){
@@ -871,18 +871,18 @@ public class GrafoEtiquetadoInt {
     }
         
     //  Funcion privada auxiliar para listarEnAnchura
-    private void anchuraDesde(NodoVert vertice, Lista visitados){
+    private void anchuraDesde(NodoVertInt vertice, Lista visitados){
         
         Cola colaAux = new Cola();
         
         visitados.insertar(vertice.getElem(), visitados.longitud() + 1);
         
         colaAux.poner(vertice);
-        NodoVert auxVert;
-        NodoAdy auxAdy;
+        NodoVertInt auxVert;
+        NodoAdyInt auxAdy;
         
         while(!colaAux.esVacia()){
-            auxVert = (NodoVert) colaAux.obtenerFrente();
+            auxVert = (NodoVertInt) colaAux.obtenerFrente();
             colaAux.sacar();
             auxAdy = auxVert.getPrimerAdy();
             while(auxAdy != null){
@@ -908,7 +908,7 @@ public class GrafoEtiquetadoInt {
         GrafoEtiquetadoInt resultado = new GrafoEtiquetadoInt();
         
         //  Nodo vertice auxiliar que usaremos para recorrer la estructura
-        NodoVert aux = inicio;
+        NodoVertInt aux = inicio;
         
         //  Primero inserta todos los vertices, ya que si intentamos insertar algun arco
         //      a un vertice que no exista no funcionara
@@ -925,7 +925,7 @@ public class GrafoEtiquetadoInt {
         aux = inicio;
         //  Nodo adyacente auxiliar que nos servira para recorrer todos los adyacentes
         //      de un nodo vertice dado, es decir, sus arcos
-        NodoAdy auxAdy;
+        NodoAdyInt auxAdy;
         
         //  Recorremos toda la estructura nuevamente
         while(aux != null){
@@ -970,13 +970,13 @@ public class GrafoEtiquetadoInt {
         } else {
             
             resultado = "Formato de grafo. <elementoVertice> : {<destinoArco>, <etiquetaArco>} -  ... \n";
-            NodoVert aux = inicio;
+            NodoVertInt aux = inicio;
 
             while(aux != null){
                 
                 resultado += "\n " + aux.getElem().toString();
                 
-                NodoAdy auxAdy = aux.getPrimerAdy();
+                NodoAdyInt auxAdy = aux.getPrimerAdy();
                 
                 while(auxAdy != null){
                     resultado += " { " + auxAdy.getVertice().getElem().toString() + ", " + auxAdy.getEtiqueta() + " } -";

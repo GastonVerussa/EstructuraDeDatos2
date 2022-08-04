@@ -1,32 +1,40 @@
 package propositoEspecifico;
 
-import Hash.FuncionesString;
+import Hash.*;
 import lineales.dinamicas.Lista;
 import lineales.dinamicas.Pila;
 
-public class DiccionarioHashString {
+public class DiccionarioHash {
     
-    private static final int TAMANIO = 30;
+    private final int TAMANIO;
     private NodoHashDicc[] tabla;
     private int cant;
     
     
     //  Crea una estructura sin elementos.
-    public DiccionarioHashString(){
+    public DiccionarioHash(){
+        TAMANIO = 30;
         tabla = new NodoHashDicc[TAMANIO];
         cant = 0;
     }
 
+    //  Crea una estructura sin elementos.
+    public DiccionarioHash(int tamanio){
+        this.TAMANIO = tamanio;
+        tabla = new NodoHashDicc[tamanio];
+        cant = 0;
+    }
+    
     //  Recibe la clave que es única y el dato (información asociada a ella). Si no existe en la estructura
     //      un elemento con igual clave, agrega el par (clave, dato) a la estructura. Si la operación termina con
     //      éxito devuelve verdadero y falso en caso contrario.
-    public boolean insertar(String clave, Object dato){
+    public boolean insertar(Object clave, Object dato){
         
         //  Variable que guarda el resultado
         boolean exito = true;
         
         //  Calcula la posicion
-        int posicion = FuncionesString.hashCadenaDoblamiento(clave, TAMANIO);
+        int posicion = calcularPosicion(clave);
         //  Auxiliar para revisar la lista en la posicion
         NodoHashDicc auxiliar = tabla[posicion];
         
@@ -55,7 +63,7 @@ public class DiccionarioHashString {
 
     //  Elimina el elemento cuya clave sea la recibida por parámetro. Si lo encuentra y la operación de
     //      eliminación termina con éxito devuelve verdadero y falso en caso contrario.
-    public boolean eliminar(String clave){
+    public boolean eliminar(Object clave){
         
         //  Variable que guarda el resultado, si la tabla esta vacia, exito es falso
         boolean exito = false;
@@ -63,7 +71,7 @@ public class DiccionarioHashString {
         // Si la tabla no esta vacia
         if(!this.esVacio()){
             //  Calcula la posicion
-            int posicion = FuncionesString.hashCadenaDoblamiento(clave, TAMANIO);
+            int posicion = calcularPosicion(clave);
             //  Auxiliar para revisar la lista en la posicion
             NodoHashDicc auxiliar = tabla[posicion];
             //  Si hay al menos un elemento en la posicion
@@ -99,13 +107,13 @@ public class DiccionarioHashString {
 
     //  Devuelve verdadero si en la estructura se encuentra almacenado un elemento con la clave recibida
     //      por parámetro, caso contrario devuelve falso.
-    public boolean existeClave(String clave){
+    public boolean existeClave(Object clave){
         
         //  Variable que guarda el exito
         boolean exito = false;
         
         //  Calcula la posicion
-        int posicion = FuncionesString.hashCadenaDoblamiento(clave, TAMANIO);
+        int posicion = calcularPosicion(clave);
         
         //  Variable para recorrer los enlaces
         NodoHashDicc auxiliar = tabla[posicion];
@@ -128,13 +136,13 @@ public class DiccionarioHashString {
     //  Si en la estructura se encuentra almacenado un elemento con la clave recibida por parámetro,
     //      devuelve la información asociada a ella. Precondición: si no existe un elemento con esa clave no se
     //      puede asegurar el funcionamiento de la operación.
-    public Object obtenerInformacion(String clave){
+    public Object obtenerInformacion(Object clave){
         
         //  Variable que guarda el exito
         Object resultado = null;
         
         //  Calcula la posicion
-        int posicion = FuncionesString.hashCadenaDoblamiento(clave, TAMANIO);
+        int posicion = calcularPosicion(clave);
         
         //  Variable para recorrer los enlaces
         NodoHashDicc auxiliar = tabla[posicion];
@@ -228,11 +236,40 @@ public class DiccionarioHashString {
         }
     }
     
+    private int calcularPosicion(Object elemento){
+        
+        int resultado;    
+
+        int elementoInt;
+        
+        //  Si no es int, le aplica una funcion para sumar los valores de todos los caracteres
+        //      de su toString(), devolviendo un entero
+        if(!elemento.getClass().getSimpleName().equals("Integer")){
+            elementoInt = FuncionesString.hashCadena(elemento.toString(), TAMANIO);
+        } else {
+            //  Si es un int, simplemente obtiene su valor
+            elementoInt = (int) elemento;
+        }
+        
+        //  Luego aplica una funcion hash al valor obtenido
+        
+        //  Si no es muy grande (No le saca al menos dos digitos de diferencia al tamaño)
+        if(elementoInt < TAMANIO * 100){
+            //  Aplica al funcion cuadrado, esperando evitar conflictor
+            resultado = FuncionesEnteros.hashCuadrado(elementoInt, TAMANIO);
+        } else {
+            //  Si es muy grande, aplica doblamiento, ya que es mas simple
+            resultado = FuncionesEnteros.hashDoblamiento(elementoInt, TAMANIO);
+        }
+
+        return resultado;
+    }
+    
     @Override
-    public DiccionarioHashString clone(){
+    public DiccionarioHash clone(){
         
         //  Diccionario clon que se pasara como resultado final
-        DiccionarioHashString resultado = new DiccionarioHashString();
+        DiccionarioHash resultado = new DiccionarioHash();
         
         //  Entero para saber en que posicion nos encontramos
         int posicion = 0;

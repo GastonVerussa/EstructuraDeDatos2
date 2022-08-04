@@ -4,8 +4,8 @@ import lineales.dinamicas.Cola;
 
 public class NodoCP {
     
-    private Comparable prioridad;
-    private Cola items;
+    private final Comparable prioridad;
+    private final Cola items;
     private NodoCP siguienteNodo;
     
     public NodoCP(Comparable prioridad, NodoCP siguienteNodo){

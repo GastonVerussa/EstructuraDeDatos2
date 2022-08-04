@@ -3,10 +3,10 @@ package grafos;
 public class NodoAdy {
     
     private NodoVert vertice;
-    private int etiqueta;
+    private Object etiqueta;
     private NodoAdy sigAdyacente;
     
-    public NodoAdy(NodoVert vertice, int etiqueta, NodoAdy sigAdyacente){
+    public NodoAdy(NodoVert vertice, Object etiqueta, NodoAdy sigAdyacente){
         this.vertice = vertice;
         this.etiqueta = etiqueta;
         this.sigAdyacente = sigAdyacente;
@@ -20,7 +20,7 @@ public class NodoAdy {
         return this.sigAdyacente;
     }
     
-    public int getEtiqueta(){
+    public Object getEtiqueta(){
         return this.etiqueta;
     }
     
@@ -32,7 +32,7 @@ public class NodoAdy {
         this.sigAdyacente = sigAdyacente;
     }
     
-    public void setEtiqueta(int etiqueta){
+    public void setEtiqueta(Object etiqueta){
         this.etiqueta = etiqueta;
     }
 }

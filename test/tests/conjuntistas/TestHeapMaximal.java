@@ -8,10 +8,9 @@ public class TestHeapMaximal {
     
     public static void main(String[] args){
         System.out.println("********  Test para arbol HeapMaximal ********");
-
+        
         ArbolHeapMaximal arbol1 = new ArbolHeapMaximal();
-        String[] elems = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre", "Diciembre"};
+        int[] elems = {0, 1, 2, 3, 4, 5, 6, 6, 7, 8, 15, 17, 18, 20};
         Lista listaAux = new Lista();
         
         for(int i = 0; i < elems.length; i++){
@@ -47,8 +46,8 @@ public class TestHeapMaximal {
         System.out.println("Imprime Arbol 1: " + arbol1.toString());
 
         System.out.println();
-        System.out.println("C) Poner 3 elementos (Uno, Dos y Tres) en el Arbol 1: ");
-        System.out.println(arbol1.insertar("Uno") && arbol1.insertar("Dos") && arbol1.insertar("Tres"));
+        System.out.println("C) Poner 3 elementos (12, 52 y 25) en el Arbol 1: ");
+        System.out.println(arbol1.insertar(12) && arbol1.insertar(52) && arbol1.insertar(25));
         System.out.println("Arbol 1 y Arbol 2 son iguales?");
         System.out.println("Arbol 1: " + arbol1.toString());
         System.out.println("Arbol 2: " + arbol2.toString());
@@ -67,8 +66,8 @@ public class TestHeapMaximal {
         System.out.println("F) Llenar Arbol 1");
         boolean exitoInsertar = true;
         while(exitoInsertar){
-            exitoInsertar = arbol1.insertar("Elemento");
-            System.out.println("Insertamos Elemento: " + exitoInsertar);
+            exitoInsertar = arbol1.insertar(99);
+            System.out.println("Insertamos 99: " + exitoInsertar);
         }
         
         System.out.println("G) Intentamos eliminar en Arbol 2: ");

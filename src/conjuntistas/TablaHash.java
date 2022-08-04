@@ -2,36 +2,47 @@
 package conjuntistas;
 
 import Hash.FuncionesEnteros;
+import Hash.FuncionesString;
 import lineales.dinamicas.Lista;
 
 public class TablaHash {
     
-    private static final int TAMANIO = 20;
-    private final NodoEntero[] tabla;
+    private final int TAMANIO;
+    private final NodoHash[] tabla;
     private int cantidad;
     
     //  Constructor vacio
     public TablaHash(){
-        tabla = new NodoEntero[TAMANIO];
+        TAMANIO = 20;
+        tabla = new NodoHash[TAMANIO];
+        cantidad = 0;
+    }
+    
+    //  Constructor vacio
+    public TablaHash(int TAMANIO){
+        this.TAMANIO = TAMANIO;
+        tabla = new NodoHash[TAMANIO];
         cantidad = 0;
     }
     
     //  Recibe un elemento e intenta insertarlo en la tabla. Si todo funciona OK (no está repetido y hay
     //      lugar suciente en la tabla) devuelve verdadero, si hay algún problema devuelve falso
-    public boolean insertar(int elemento){
+    public boolean insertar(Object elemento){
         
         //  Variable que guarda el resultado
         boolean exito = true;
         
+        
+        
         //  Calcula la posicion
-        int posicion = FuncionesEnteros.hashDoblamiento(elemento, TAMANIO);
+        int posicion = calcularPosicion(elemento); 
         //  Auxiliar para revisar la lista en la posicion
-        NodoEntero auxiliar = tabla[posicion];
+        NodoHash auxiliar = tabla[posicion];
         
         //  Mientras no se haya llegado al final de la lista ni haya ocurrido un error
         while(auxiliar != null && exito){
             //  Si encuentra el elemento
-            if(auxiliar.getElem() == elemento){
+            if(auxiliar.getElem().equals(elemento)){
                 //  Entonces esta repetido, por lo que no hay exito
                 exito = false;
             } else {
@@ -43,7 +54,7 @@ public class TablaHash {
         //  Si hubo exito, es decir que no esta repetido el elemento
         if(exito){
             //  Entonces asigna el inicio de la lista de la posicion como un nuevo nodo y lo enlaza al viejo inicio
-            tabla[posicion] = new NodoEntero(elemento, tabla[posicion]);
+            tabla[posicion] = new NodoHash(elemento, tabla[posicion]);
             //  Aumenta la cantidad
             cantidad++;
         }
@@ -54,7 +65,7 @@ public class TablaHash {
     //  Recibe el elemento que se desea eliminar y se procede a quitarlo de la tabla. Si todo funciona OK
     //      (el elemento estaba cargado previamente en la tabla) devuelve verdadero, si hay algún problema
     //      devuelve falso
-    public boolean eliminar(int elemento){
+    public boolean eliminar(Object elemento){
         
         //  Variable que guarda el resultado, si la tabla esta vacia, exito es falso
         boolean exito = false;
@@ -62,11 +73,11 @@ public class TablaHash {
         // Si la tabla no esta vacia
         if(!this.esVacia()){
             //  Calcula la posicion
-            int posicion = FuncionesEnteros.hashDoblamiento(elemento, TAMANIO);
+            int posicion = calcularPosicion(elemento);
             //  Auxiliar para revisar la lista en la posicion
-            NodoEntero auxiliar = tabla[posicion];
+            NodoHash auxiliar = tabla[posicion];
             //  Caso base, si el primer nodo en la posicion tiene el elemento
-            if(auxiliar.getElem() == elemento){
+            if(auxiliar.getElem().equals(elemento)){
                 //  Su enlace pasa a ser la cabecera, en caso de que sea el unico nodo sera null
                 tabla[posicion] = auxiliar.getEnlace();
                 //  Se reduce la cantidad y se pasa el exito a verdadero
@@ -77,7 +88,7 @@ public class TablaHash {
                 //      o la funcion haya tenido exito (el elemento fue encontrado y borrado)
                 while(auxiliar.getEnlace() != null && !exito){
                     //  Si encuentra el elemento
-                    if(auxiliar.getEnlace().getElem() == elemento){
+                    if(auxiliar.getEnlace().getElem().equals(elemento)){
                         //  Lo borra, reduce la cantidad y pasa el exito a verdadero
                         auxiliar.setEnlace(auxiliar.getEnlace().getEnlace());
                         cantidad--;
@@ -94,21 +105,21 @@ public class TablaHash {
     }
     
     //  Recibe el elemento y devuelve verdadero si ya está cargado en la tabla y falso en caso contrario
-    public boolean pertenece(int elemento){
+    public boolean pertenece(Object elemento){
         
         //  Variable que guarda el exito
         boolean exito = false;
         
         //  Calcula la posicion
-        int posicion = FuncionesEnteros.hashDoblamiento(elemento, TAMANIO);
+        int posicion = calcularPosicion(elemento);
         
         //  Variable para recorrer los enlaces
-        NodoEntero auxiliar = tabla[posicion];
+        NodoHash auxiliar = tabla[posicion];
         
         //  Recorre los enlaces hasta llegar el final o haber tenido exito buscando el elemento
         while(auxiliar != null && !exito){
             //  Si encuentra el elemento
-            if(auxiliar.getElem() == elemento){
+            if(auxiliar.getElem().equals(elemento)){
                 //  Entonces el elemento pertenece, hay exito
                 exito = true;
             } else {
@@ -136,7 +147,7 @@ public class TablaHash {
         //  Entero para saber en que posicion nos encontramos
         int posicion = 0;
         //  Auxiliar para recorrer la estructura
-        NodoEntero auxiliar;
+        NodoHash auxiliar;
         
         //  Mientras la longitud de la lista sea menor a la cantidad de elementos en la tabla,
         //      Esto significa que faltan elementos por enlistar.
@@ -154,6 +165,35 @@ public class TablaHash {
             posicion++;
         }
         
+        return resultado;
+    }
+    
+    private int calcularPosicion(Object elemento){
+        
+        int resultado;    
+
+        int elementoInt;
+        
+        //  Si no es int, le aplica una funcion para sumar los valores de todos los caracteres
+        //      de su toString(), devolviendo un entero
+        if(!elemento.getClass().getSimpleName().equals("Integer")){
+            elementoInt = FuncionesString.hashCadena(elemento.toString(), TAMANIO);
+        } else {
+            //  Si es un int, simplemente obtiene su valor
+            elementoInt = (int) elemento;
+        }
+        
+        //  Luego aplica una funcion hash al valor obtenido
+        
+        //  Si no es muy grande (No le saca al menos dos digitos de diferencia al tamaño)
+        if(elementoInt < TAMANIO * 100){
+            //  Aplica al funcion cuadrado, esperando evitar conflictor
+            resultado = FuncionesEnteros.hashCuadrado(elementoInt, TAMANIO);
+        } else {
+            //  Si es muy grande, aplica doblamiento, ya que es mas simple
+            resultado = FuncionesEnteros.hashDoblamiento(elementoInt, TAMANIO);
+        }
+
         return resultado;
     }
 }
