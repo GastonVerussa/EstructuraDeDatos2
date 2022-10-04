@@ -139,6 +139,7 @@ public class Lista {
         //  Setear la cabecera a null es suficiente para vaciarla, no se necesitan borrar
         //      los nodos gracias al Garbage Collector de Java.
         this.cabecera = null;
+        this.longitud = 0;
     }
 
     //  Devuelve verdadero si la lista no tiene elementos y falso en caso contrario.

@@ -337,8 +337,7 @@ public class GrafoEtiquetadoIntMod {
             NodoVertInt verticeDestino = nodos.getValor2();
             
             if(verticeOrigen != null && verticeDestino != null){
-                Lista caminoRecorrido = new Lista();
-                caminoMasCortoAux(verticeOrigen, destino, caminoRecorrido, resultado);
+                caminoMasCortoAux(verticeOrigen, destino, new Lista(), resultado);
             }
         }
         return resultado;
@@ -349,27 +348,30 @@ public class GrafoEtiquetadoIntMod {
         
         //  Se agrega al camino recorrido
         caminoRecorrido.insertar(vertice.getElem(), caminoRecorrido.longitud() + 1);
-
+         
         if(vertice.getElem().equals(destino)){
-            caminoPosible = caminoRecorrido.clone();
+            caminoPosible.vaciar();
+            for(int i = 1; i <= caminoRecorrido.longitud(); i++){
+                caminoPosible.insertar(caminoRecorrido.recuperar(i), i);
+            }
         } else {
-            //  Si todavia no se encontro un camino posible, O si se encontro pero el camino actual es mas corto
-            //      que la longitud del otro - 1 (ya que si al agregar el siguiente vertice queda igual que el camino mas corto
-            //      no sirve)
-            if(caminoPosible.esVacia() || caminoRecorrido.longitud() < caminoPosible.longitud() - 1){
+            //  Variable para recorrer el arreglo
+            NodoAdyInt aux = vertice.getPrimerAdy();
 
-                //  Variable para recorrer el arreglo
-                NodoAdyInt aux = vertice.getPrimerAdy();
-
-                //  Mientras no se hayan recorrido todos los adyacentes
-                while(aux!=null){
+            //  Mientras no se hayan recorrido todos los adyacentes
+            while(aux!=null){
+                //  Si todavia no se encontro un camino posible, O si se encontro pero el camino actual es mas corto
+                //      que la longitud del otro - 1 (ya que si al agregar el siguiente vertice queda igual que el camino mas corto
+                //      no sirve)
+                if((caminoPosible.esVacia()) || (caminoRecorrido.longitud() < caminoPosible.longitud() - 1)){
                     //  Nos fijamos si ya fue visitado para evitar bucles
                     if(caminoRecorrido.localizar(aux.getVertice().getElem()) < 0){
                         //  Si no esta entre los vertices visitados, entonces se llama
                         //      recursivamente para checkear este posible caminno.
                         caminoMasCortoAux(aux.getVertice(), destino, caminoRecorrido, caminoPosible);
-                    }
+                    } 
                 }
+                aux = aux.getSigAdyacente();
             }
         }
         
@@ -395,7 +397,7 @@ public class GrafoEtiquetadoIntMod {
             
             if(verticeOrigen != null && verticeDestino != null){
                 Lista caminoRecorrido = new Lista();
-                caminoMasCortoAux(verticeOrigen, destino, caminoRecorrido, resultado);
+                caminoMasLargoAux(verticeOrigen, destino, caminoRecorrido, resultado);
             }
         }
         
@@ -410,7 +412,10 @@ public class GrafoEtiquetadoIntMod {
 
         if(vertice.getElem().equals(destino)){
             if(caminoRecorrido.longitud() > caminoPosible.longitud()){
-                caminoPosible = caminoRecorrido.clone();
+                caminoPosible.vaciar();
+                for(int i = 1; i <= caminoRecorrido.longitud(); i++){
+                    caminoPosible.insertar(caminoRecorrido.recuperar(i), i);
+                }
             }
         } else {
             //  Variable para recorrer el arreglo
@@ -424,6 +429,7 @@ public class GrafoEtiquetadoIntMod {
                     //      recursivamente para checkear este posible caminno.
                     caminoMasLargoAux(aux.getVertice(), destino, caminoRecorrido, caminoPosible);
                 }
+                aux = aux.getSigAdyacente();
             }
         }
         
@@ -662,7 +668,10 @@ public class GrafoEtiquetadoIntMod {
         
         if(menorDistancia < 0 || distanciaActual > menorDistancia){
             if(vertice.getElem().equals(destino)){
-                caminoPosible = recorridoActual.clone();
+                caminoPosible.vaciar();
+                for(int i = 1; i <= recorridoActual.longitud(); i++){
+                    caminoPosible.insertar(recorridoActual.recuperar(i), i);
+                }
                 menorDistancia = distanciaActual;
             } else {
                 NodoAdyInt aux = vertice.getPrimerAdy();
