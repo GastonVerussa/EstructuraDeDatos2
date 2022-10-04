@@ -80,6 +80,9 @@ public class TestGrafoEtiquetadoInt {
         System.out.println("J) Conseguir ciertos caminos de Bosque a Montaña:");
         System.out.println("Camino con menos vertices: " + grafo1.caminoMasCorto("Bosque", "Montaña").toString());
         System.out.println("Camino con mas vertices: " + grafo1.caminoMasLargo("Bosque", "Montaña").toString());
+        System.out.println("Camino con menos km: " + grafo1.caminoMasCortoEtiqueta("Bosque", "Montaña").toString());
+        System.out.println("Caminos con menos km que 1000: " + grafo1.caminosMenoresKm("Bosque", "Montaña", 1000).toString());
+        System.out.println("Caminos que no pasen por Rio: " + grafo1.caminosPosiblesSinVertice("Bosque", "Montaña", "Rio").toString());
         
         System.out.println("K) Intentamos eliminar los siguientes arcos: ");
         System.out.println("Bosque a Isla: " + grafo1.eliminarArco("Bosque", "Isla"));

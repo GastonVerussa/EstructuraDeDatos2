@@ -5,6 +5,7 @@ import lineales.dinamicas.Cola;
 import lineales.dinamicas.Lista;
 import propositoEspecifico.Conjunto;
 import utiles.Par;
+import utiles.Dato;
 
 public class GrafoEtiquetadoIntMod {
     
@@ -653,7 +654,7 @@ public class GrafoEtiquetadoIntMod {
             
             if(verticeOrigen != null && verticeDestino != null){
                 //  Llama a la funcion privada para conseguir el camino mas corto
-                caminoMasCortoEtiquetaAux(verticeOrigen, destino, new Lista(), 0, resultado, -1);
+                caminoMasCortoEtiquetaAux(verticeOrigen, destino, new Lista(), 0, resultado, new Dato<Integer>(-1));
             }
         }
         
@@ -661,18 +662,18 @@ public class GrafoEtiquetadoIntMod {
     }
        
     //  Funcion privada auxiliar de caminoMasCorto, devuleve el camino mas corto
-    private void caminoMasCortoEtiquetaAux(NodoVertInt vertice, Object destino, Lista recorridoActual, int distanciaActual, Lista caminoPosible, Integer menorDistancia){
+    private void caminoMasCortoEtiquetaAux(NodoVertInt vertice, Object destino, Lista recorridoActual, int distanciaActual, Lista caminoPosible, Dato<Integer> menorDistancia){
 
         //  Se agrega al camino recorrido
         recorridoActual.insertar(vertice.getElem(), recorridoActual.longitud() + 1);
         
-        if(menorDistancia < 0 || distanciaActual > menorDistancia){
+        if(menorDistancia.get() < 0 || distanciaActual < menorDistancia.get()){
             if(vertice.getElem().equals(destino)){
                 caminoPosible.vaciar();
                 for(int i = 1; i <= recorridoActual.longitud(); i++){
                     caminoPosible.insertar(recorridoActual.recuperar(i), i);
                 }
-                menorDistancia = distanciaActual;
+                menorDistancia.set(distanciaActual);
             } else {
                 NodoAdyInt aux = vertice.getPrimerAdy();
                 while(aux != null){
@@ -724,7 +725,7 @@ public class GrafoEtiquetadoIntMod {
                 
                 while(aux != null){
                     if(recorridoActual.localizar(aux.getVertice().getElem()) < 0){
-                        caminosMenoresKmAux(vertice, destino, limiteKm, recorridoActual, distanciaActual + aux.getEtiqueta(), resultado);
+                        caminosMenoresKmAux(aux.getVertice(), destino, limiteKm, recorridoActual, distanciaActual + aux.getEtiqueta(), resultado);
                     }
                     aux = aux.getSigAdyacente();
                 }
