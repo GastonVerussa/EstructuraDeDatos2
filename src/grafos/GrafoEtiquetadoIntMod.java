@@ -1,18 +1,20 @@
 package grafos;
 
+import java.io.IOError;
 import lineales.dinamicas.Cola;
 import lineales.dinamicas.Lista;
 import propositoEspecifico.Conjunto;
 import utiles.Par;
 
-public class GrafoEtiquetado{
+public class GrafoEtiquetadoIntMod {
     
     //  Variable para mantener puntero al inicio
-    private NodoVert inicio;
+    private NodoVertInt inicio;
     
     //  Constructor, lo crea vacio
-    public GrafoEtiquetado(){
+    public GrafoEtiquetadoIntMod(){
         this.inicio = null;
+        //Camino camino; 
     }
     
     //  Dado un elemento de TipoVertice se lo agrega a la estructura controlando 
@@ -26,7 +28,7 @@ public class GrafoEtiquetado{
         //  Si no existe
         if(ubicarVertice(vertice) == null){
             //  Lo crea como el primer vertice
-            inicio = new NodoVert(vertice, inicio);
+            inicio = new NodoVertInt(vertice, inicio);
         } else {
             exito = false;
         }
@@ -48,7 +50,7 @@ public class GrafoEtiquetado{
         return exito;
     }
     
-    private boolean eliminarVerticeAux(Object verticeObjetivo, NodoVert verticeActual, NodoVert verticePadre){
+    private boolean eliminarVerticeAux(Object verticeObjetivo, NodoVertInt verticeActual, NodoVertInt verticePadre){
         boolean exito;
         //  Si el vertice actual es nulo, se llego al final sin encontrar el vertice, devuelve falso
         if(verticeActual == null){
@@ -59,7 +61,7 @@ public class GrafoEtiquetado{
                 //      todos los arcos que vienen hacia el vertice
                 
                 //  Consigue el primer adyacente del vertice
-                NodoAdy auxAdy = verticeActual.getPrimerAdy();
+                NodoAdyInt auxAdy = verticeActual.getPrimerAdy();
 
                 //  Mientras queden arcos por revisar
                 while(auxAdy != null){
@@ -86,7 +88,7 @@ public class GrafoEtiquetado{
     }
     
     //  Funcion para eliminar un arco en un solo sentido y recibiendo como parametros ya los vertices
-    private boolean eliminarArcoNodos(NodoVert nodoOrigen, NodoVert nodoDestino, NodoAdy arcoActual, NodoAdy arcoPadre){
+    private boolean eliminarArcoNodos(NodoVertInt nodoOrigen, NodoVertInt nodoDestino, NodoAdyInt arcoActual, NodoAdyInt arcoPadre){
         boolean exito;
         //  Si llego al final, no hay arco en este sentido
         if(arcoActual == null){
@@ -114,17 +116,17 @@ public class GrafoEtiquetado{
     //  Dados dos elementos de TipoVertice (origen y destino) agrega el arco en la estructura, 
     //      sólo si ambos vértices ya existen en el grafo. Si puede realizar la inserción 
     //      devuelve verdadero, en caso contrario devuelve falso.
-    public boolean insertarArco(Object origen, Object destino, Object etiqueta){
+    public boolean insertarArco(Object origen, Object destino, int etiqueta){
         
         //  Variable que guarda el exito
         boolean exito = false;
         
-        Par<NodoVert, NodoVert> vertices = ubicarVertices(origen, destino);
+        Par<NodoVertInt, NodoVertInt> vertices = ubicarVertices(origen, destino);
         
         if(vertices.getValor1() != null && vertices.getValor2() != null){
             //  Si fueron encontrados los vertices, entonces 
             //      crea una variable para recorrer los adyacentes al vertice origen
-            NodoAdy auxAdy = vertices.getValor1().getPrimerAdy();
+            NodoAdyInt auxAdy = vertices.getValor1().getPrimerAdy();
             boolean existeArco = false;
 
             // Solo se necesita checkear si existe en un sentido, ya que si no existe en un
@@ -138,8 +140,8 @@ public class GrafoEtiquetado{
             }
 
             if(!existeArco){
-                vertices.getValor1().setPrimerAdy(new NodoAdy(vertices.getValor2(), etiqueta, vertices.getValor1().getPrimerAdy()));
-                vertices.getValor2().setPrimerAdy(new NodoAdy(vertices.getValor1(), etiqueta, vertices.getValor2().getPrimerAdy()));
+                vertices.getValor1().setPrimerAdy(new NodoAdyInt(vertices.getValor2(), etiqueta, vertices.getValor1().getPrimerAdy()));
+                vertices.getValor2().setPrimerAdy(new NodoAdyInt(vertices.getValor1(), etiqueta, vertices.getValor2().getPrimerAdy()));
                 exito = true;
             }
         }
@@ -159,10 +161,10 @@ public class GrafoEtiquetado{
         //  Si esta vacio claramente no existen los vertices, devuelve el exito falso
         if(!this.esVacio()){
             
-            Par<NodoVert, NodoVert> vertices = ubicarVertices(origen, destino);
+            Par<NodoVertInt, NodoVertInt> vertices = ubicarVertices(origen, destino);
             //  Variables para guardar el lugar de los vertices
-            NodoVert verticeOrigen = vertices.getValor1();
-            NodoVert verticeDestino = vertices.getValor2();
+            NodoVertInt verticeOrigen = vertices.getValor1();
+            NodoVertInt verticeDestino = vertices.getValor2();
                     
             if(verticeOrigen != null && verticeDestino != null){
                 
@@ -192,11 +194,11 @@ public class GrafoEtiquetado{
         //  Si esta vacio claramente no existen los vertices, devuelve el existe falso
         if(!this.esVacio()){
             
-            Par<NodoVert, NodoVert> vertices = ubicarVertices(origen, destino);
+            Par<NodoVertInt, NodoVertInt> vertices = ubicarVertices(origen, destino);
 
             if(vertices.getValor1() != null && vertices.getValor2() != null){
                 //  Variable que se usa para recorrer la estructura de adyacentes al origen
-                NodoAdy auxAdy = vertices.getValor1().getPrimerAdy();
+                NodoAdyInt auxAdy = vertices.getValor1().getPrimerAdy();
 
                 //  Mientras queden adyacentes por revisar y no se haya encontrado el
                 //      nodo adyacente buscado
@@ -219,23 +221,23 @@ public class GrafoEtiquetado{
     //  Dados dos elementos de TipoVertice (origen y destino), devuelve el valor 
     //      de la etiqueta del arco en la estructura que los une. De no existir
     //      tal arco, devuleve -1.
-    public Object recuperarEtiqueta(Object origen, Object destino){
+    public int recuperarEtiqueta(Object origen, Object destino){
         
         //  Variable que guarda si existe
-        Object etiqueta = null;
+        int etiqueta = -1;
         
         //  Si esta vacio claramente no existen los vertices, devuelve -1
         if(!this.esVacio()){
             
-            Par<NodoVert, NodoVert> vertices = ubicarVertices(origen, destino);
+            Par<NodoVertInt, NodoVertInt> vertices = ubicarVertices(origen, destino);
            
             if(vertices.getValor1() != null && vertices.getValor2() != null){
                 //  Variable que se usa para recorrer la estructura de adyacentes al origen
-                NodoAdy auxAdy = vertices.getValor1().getPrimerAdy();
+                NodoAdyInt auxAdy = vertices.getValor1().getPrimerAdy();
                 
                 //  Mientras queden adyacentes por revisar y no se haya encontrado el
                 //      nodo adyacente buscado
-                while(auxAdy != null && etiqueta == null){
+                while(auxAdy != null && etiqueta == -1){
                     //  Si es el adyacente buscado
                     if(auxAdy.getVertice().getElem().equals(destino)){
                         //  Fue encontrado, por lo que recupera la etiqueta
@@ -261,7 +263,7 @@ public class GrafoEtiquetado{
         //  Si esta vacio claramente no existen los vertices, devuelve el existe falso
         if(!this.esVacio()){
             
-            Par<NodoVert, NodoVert> vertices = ubicarVertices(origen, destino);
+            Par<NodoVertInt, NodoVertInt> vertices = ubicarVertices(origen, destino);
             
             if(vertices.getValor1() != null && vertices.getValor2() != null){
                 //  De ser encontrados, crea una variable conjunto que guardara que
@@ -277,7 +279,7 @@ public class GrafoEtiquetado{
         
     //  Funcion privada auxiliar para la funcion de existe camino. Recorre recursivamente todos sus
     //      adyacentes que no hayan sido visitados
-    private boolean existeCaminoAux(NodoVert vertice, Object destino, Conjunto verticesRecorridos){
+    private boolean existeCaminoAux(NodoVertInt vertice, Object destino, Conjunto verticesRecorridos){
         
         //  Variable para guardar el exito
         boolean existe = false;
@@ -289,13 +291,13 @@ public class GrafoEtiquetado{
             existe = true;
         } else {
             //  Auxiliar para recorrer los nodos adyacentes del nodo vertice
-            NodoAdy aux = vertice.getPrimerAdy();
+            NodoAdyInt aux = vertice.getPrimerAdy();
 
             //  Mientras tenga adyacentes que recorrer y no haya encontrado un camino 
             while(aux != null && !existe){
                 
                 //  Variable para referenciar mas facilmente el vertice del adyacente actual
-                NodoVert auxVert = aux.getVertice();
+                NodoVertInt auxVert = aux.getVertice();
 
                 //  Nos fijamos si ya fue visitado para evitar bucles
                 if(!verticesRecorridos.pertenece(auxVert.getElem())){
@@ -329,10 +331,10 @@ public class GrafoEtiquetado{
         //  Si esta vacio claramente no existen los vertices, devuelve la lista vacia
         if(!this.esVacio()){
             
-            Par<NodoVert, NodoVert> nodos = ubicarVertices(origen, destino);
+            Par<NodoVertInt, NodoVertInt> nodos = ubicarVertices(origen, destino);
             //  Variables para guardar el lugar de los vertices
-            NodoVert verticeOrigen = nodos.getValor1();
-            NodoVert verticeDestino = nodos.getValor2();
+            NodoVertInt verticeOrigen = nodos.getValor1();
+            NodoVertInt verticeDestino = nodos.getValor2();
             
             if(verticeOrigen != null && verticeDestino != null){
                 Lista caminoRecorrido = new Lista();
@@ -343,7 +345,7 @@ public class GrafoEtiquetado{
     }
        
     //  Funcion privada auxiliar de caminoMasCorto, devuleve el camino mas corto en el parametro resultado
-    private void caminoMasCortoAux(NodoVert vertice, Object destino, Lista caminoRecorrido, Lista caminoPosible){
+    private void caminoMasCortoAux(NodoVertInt vertice, Object destino, Lista caminoRecorrido, Lista caminoPosible){
         
         //  Se agrega al camino recorrido
         caminoRecorrido.insertar(vertice.getElem(), caminoRecorrido.longitud() + 1);
@@ -357,7 +359,7 @@ public class GrafoEtiquetado{
             if(caminoPosible.esVacia() || caminoRecorrido.longitud() < caminoPosible.longitud() - 1){
 
                 //  Variable para recorrer el arreglo
-                NodoAdy aux = vertice.getPrimerAdy();
+                NodoAdyInt aux = vertice.getPrimerAdy();
 
                 //  Mientras no se hayan recorrido todos los adyacentes
                 while(aux!=null){
@@ -386,10 +388,10 @@ public class GrafoEtiquetado{
         //  Si esta vacio claramente no existen los vertices, devuelve la lista vacia
         if(!this.esVacio()){
             
-            Par<NodoVert, NodoVert> nodos = ubicarVertices(origen, destino);
+            Par<NodoVertInt, NodoVertInt> nodos = ubicarVertices(origen, destino);
             //  Variables para guardar el lugar de los vertices
-            NodoVert verticeOrigen = nodos.getValor1();
-            NodoVert verticeDestino = nodos.getValor2();
+            NodoVertInt verticeOrigen = nodos.getValor1();
+            NodoVertInt verticeDestino = nodos.getValor2();
             
             if(verticeOrigen != null && verticeDestino != null){
                 Lista caminoRecorrido = new Lista();
@@ -401,7 +403,7 @@ public class GrafoEtiquetado{
     }
        
     //  Funcion privada auxiliar de caminoMasLargo, devuleve el camino mas largo en el parametro resultado
-    private void caminoMasLargoAux(NodoVert vertice, Object destino, Lista caminoRecorrido, Lista caminoPosible){
+    private void caminoMasLargoAux(NodoVertInt vertice, Object destino, Lista caminoRecorrido, Lista caminoPosible){
         
         //  Se agrega al camino recorrido
         caminoRecorrido.insertar(vertice.getElem(), caminoRecorrido.longitud() + 1);
@@ -412,7 +414,7 @@ public class GrafoEtiquetado{
             }
         } else {
             //  Variable para recorrer el arreglo
-            NodoAdy aux = vertice.getPrimerAdy();
+            NodoAdyInt aux = vertice.getPrimerAdy();
 
             //  Mientras no se hayan recorrido todos los adyacentes
             while(aux!=null){
@@ -434,7 +436,7 @@ public class GrafoEtiquetado{
         
         Lista resultado = new Lista();
         
-        NodoVert aux = inicio;
+        NodoVertInt aux = inicio;
         
         while(aux != null){
             if(resultado.localizar(aux.getElem()) < 0){
@@ -447,11 +449,11 @@ public class GrafoEtiquetado{
     }
 
     //  Funcion privada auxiliar para listarEnProfundidad
-    private void profundidadDesde(NodoVert vertice, Lista visitados){
+    private void profundidadDesde(NodoVertInt vertice, Lista visitados){
         
         visitados.insertar(vertice.getElem(), visitados.longitud() + 1);
         
-        NodoAdy aux = vertice.getPrimerAdy();
+        NodoAdyInt aux = vertice.getPrimerAdy();
         
         while(aux != null){
             if(visitados.localizar(aux.getVertice().getElem()) < 0){
@@ -467,7 +469,7 @@ public class GrafoEtiquetado{
         
         Lista resultado = new Lista();
         
-        NodoVert aux = inicio;
+        NodoVertInt aux = inicio;
         
         while(aux != null){
             if(resultado.localizar(aux.getElem()) < 0){
@@ -480,18 +482,18 @@ public class GrafoEtiquetado{
     }
         
     //  Funcion privada auxiliar para listarEnAnchura
-    private void anchuraDesde(NodoVert vertice, Lista visitados){
+    private void anchuraDesde(NodoVertInt vertice, Lista visitados){
         
         Cola colaAux = new Cola();
         
         visitados.insertar(vertice.getElem(), visitados.longitud() + 1);
         
         colaAux.poner(vertice);
-        NodoVert auxVert;
-        NodoAdy auxAdy;
+        NodoVertInt auxVert;
+        NodoAdyInt auxAdy;
         
         while(!colaAux.esVacia()){
-            auxVert = (NodoVert) colaAux.obtenerFrente();
+            auxVert = (NodoVertInt) colaAux.obtenerFrente();
             colaAux.sacar();
             auxAdy = auxVert.getPrimerAdy();
             while(auxAdy != null){
@@ -516,13 +518,13 @@ public class GrafoEtiquetado{
     //  Genera y devuelve un grafo que es equivalente (igual estructura y contenido 
     //      de los nodos) al original. 
     @Override
-    public GrafoEtiquetado clone(){
+    public GrafoEtiquetadoIntMod clone(){
         
         //  Nuevo grafo que se pasara como resultado final
-        GrafoEtiquetado resultado = new GrafoEtiquetado();
+        GrafoEtiquetadoIntMod resultado = new GrafoEtiquetadoIntMod();
         
         //  Nodo vertice auxiliar que usaremos para recorrer la estructura
-        NodoVert aux = inicio;
+        NodoVertInt aux = inicio;
         
         //  Primero inserta todos los vertices, ya que si intentamos insertar algun arco
         //      a un vertice que no exista no funcionara
@@ -539,7 +541,7 @@ public class GrafoEtiquetado{
         aux = inicio;
         //  Nodo adyacente auxiliar que nos servira para recorrer todos los adyacentes
         //      de un nodo vertice dado, es decir, sus arcos
-        NodoAdy auxAdy;
+        NodoAdyInt auxAdy;
         
         //  Recorremos toda la estructura nuevamente
         while(aux != null){
@@ -584,13 +586,13 @@ public class GrafoEtiquetado{
         } else {
             
             resultado = "Formato de grafo. <elementoVertice> : {<destinoArco>, <etiquetaArco>} -  ... \n";
-            NodoVert aux = inicio;
+            NodoVertInt aux = inicio;
 
             while(aux != null){
                 
                 resultado += "\n " + aux.getElem().toString() + ": ";
                 
-                NodoAdy auxAdy = aux.getPrimerAdy();
+                NodoAdyInt auxAdy = aux.getPrimerAdy();
                 
                 while(auxAdy != null){
                     resultado += " { " + auxAdy.getVertice().getElem().toString() + ", " + auxAdy.getEtiqueta() + " } -";
@@ -612,12 +614,12 @@ public class GrafoEtiquetado{
         Lista resultado = new Lista();
         
         //  Nodo vertice auxiliar que guarda la posicion del vertice buscado
-        NodoVert nodoVertice = ubicarVertice(vertice);
+        NodoVertInt nodoVertice = ubicarVertice(vertice);
         
         //  Si existe
         if(nodoVertice != null){
             //  Nodo adyacente auxiliar para recorrer todos los adyacentes del vertice
-            NodoAdy auxAdy = nodoVertice.getPrimerAdy();
+            NodoAdyInt auxAdy = nodoVertice.getPrimerAdy();
             
             //  Mientras queden adyacentes por recorrer
             while(auxAdy != null){
@@ -631,14 +633,149 @@ public class GrafoEtiquetado{
         return resultado;
     }
     
-    private NodoVert ubicarVertice(Object vertice){
+    public Lista caminoMasCortoEtiqueta(Object origen, Object destino){
         
-        NodoVert resultado = null;
+        Lista resultado = new Lista();
+        
+        //  Si esta vacio claramente no existen los vertices, devuelve la lista vacia
+        if(!this.esVacio()){
+            
+            Par<NodoVertInt, NodoVertInt> vertices = ubicarVertices(origen, destino);
+            //  Variables para guardar el lugar de los vertices
+            NodoVertInt verticeOrigen = vertices.getValor1();
+            NodoVertInt verticeDestino = vertices.getValor2();
+            
+            if(verticeOrigen != null && verticeDestino != null){
+                //  Llama a la funcion privada para conseguir el camino mas corto
+                caminoMasCortoEtiquetaAux(verticeOrigen, destino, new Lista(), 0, resultado, -1);
+            }
+        }
+        
+        return resultado;
+    }
+       
+    //  Funcion privada auxiliar de caminoMasCorto, devuleve el camino mas corto
+    private void caminoMasCortoEtiquetaAux(NodoVertInt vertice, Object destino, Lista recorridoActual, int distanciaActual, Lista caminoPosible, Integer menorDistancia){
+
+        //  Se agrega al camino recorrido
+        recorridoActual.insertar(vertice.getElem(), recorridoActual.longitud() + 1);
+        
+        if(menorDistancia < 0 || distanciaActual > menorDistancia){
+            if(vertice.getElem().equals(destino)){
+                caminoPosible = recorridoActual.clone();
+                menorDistancia = distanciaActual;
+            } else {
+                NodoAdyInt aux = vertice.getPrimerAdy();
+                while(aux != null){
+                    if(recorridoActual.localizar(aux.getVertice().getElem()) < 0){
+                        caminoMasCortoEtiquetaAux(aux.getVertice(), destino, recorridoActual, distanciaActual + aux.getEtiqueta(), caminoPosible, menorDistancia);
+                    }
+                    aux = aux.getSigAdyacente();
+                }
+            }
+        }
+        
+        recorridoActual.eliminar(recorridoActual.longitud());
+    }
+    
+    //  Funcion que devuelve todos los caminos posibles entre dos elementos, sin que superen un limite de distancia
+    public Lista caminosMenoresKm(Object origen, Object destino, int limiteKm){
+        
+        Lista resultado = new Lista();
+        
+        if(!this.esVacio()){
+            
+            //  Consigue ambos vertices
+            Par<NodoVertInt, NodoVertInt> vertices = ubicarVertices(origen, destino);
+            //  Variables para guardar el lugar de los vertices
+            NodoVertInt verticeOrigen = vertices.getValor1();
+            NodoVertInt verticeDestino = vertices.getValor2();
+            
+            //  Si luego del while no fueron encontrados, entonces no existen
+            //      ambos vertices, por lo que no hace nada y entrega la lista vacia.
+            if(verticeOrigen != null && verticeDestino != null){
+                //  Llama a la funcion privada para conseguir el camino mas corto
+                caminosMenoresKmAux(verticeOrigen, destino, limiteKm, new Lista(), 0, resultado);
+            }
+        }
+        
+        return resultado;
+    }
+    
+    private void caminosMenoresKmAux(NodoVertInt vertice, Object destino, int limiteKm, Lista recorridoActual, int distanciaActual, Lista resultado){
+        
+        
+        if(distanciaActual < limiteKm){
+            //  Se agrega al camino recorrido
+            recorridoActual.insertar(vertice.getElem(), recorridoActual.longitud() + 1);
+            if(vertice.getElem().equals(destino)){
+                resultado.insertar(recorridoActual.clone(), 1);
+            } else {
+                NodoAdyInt aux = vertice.getPrimerAdy();
+                
+                while(aux != null){
+                    if(recorridoActual.localizar(aux.getVertice().getElem()) < 0){
+                        caminosMenoresKmAux(vertice, destino, limiteKm, recorridoActual, distanciaActual + aux.getEtiqueta(), resultado);
+                    }
+                    aux = aux.getSigAdyacente();
+                }
+            }
+            recorridoActual.eliminar(recorridoActual.longitud());
+        }
+    }
+    
+    public Lista caminosPosiblesSinVertice(Object origen, Object destino, Object verticeIgnorada){
+        
+        Lista resultado = new Lista();
+        
+        if(!this.esVacio()){
+            //  Consigue ambos vertices
+            Par<NodoVertInt, NodoVertInt> vertices = ubicarVertices(origen, destino);
+            //  Variables para guardar el lugar de los vertices
+            NodoVertInt verticeOrigen = vertices.getValor1();
+            NodoVertInt verticeDestino = vertices.getValor2();
+            
+            //  Si luego del while no fueron encontrados, entonces no existen
+            //      ambos vertices, por lo que no hace nada y entrega la lista vacia.
+            if(verticeOrigen != null && verticeDestino != null){
+                //  Llama a la funcion privada para conseguir el camino mas corto
+                caminosPosiblesSinVerticeAux(verticeOrigen, destino, verticeIgnorada, new Lista(), resultado);
+            }
+        }
+        
+        return resultado;
+    }
+    
+    private void caminosPosiblesSinVerticeAux(NodoVertInt vertice, Object destino, Object verticeIgnorada, Lista recorridoActual, Lista resultado){
+        
+        Object elemento = vertice.getElem();
+        
+        if(!elemento.equals(verticeIgnorada) && recorridoActual.localizar(elemento) < 0){
+            recorridoActual.insertar(vertice.getElem(), recorridoActual.longitud() + 1);
+
+            if(vertice.getElem().equals(destino)){
+                resultado.insertar(recorridoActual.clone(), 1);
+            } else {
+                NodoAdyInt aux = vertice.getPrimerAdy();
+
+                while(aux != null){
+                    caminosPosiblesSinVerticeAux(aux.getVertice(), destino, verticeIgnorada, recorridoActual, resultado);
+                    aux = aux.getSigAdyacente();
+                }
+            }
+
+            recorridoActual.eliminar(recorridoActual.longitud());
+        }
+    }
+    
+    private NodoVertInt ubicarVertice(Object vertice){
+        
+        NodoVertInt resultado = null;
         
         //  Si esta vacio, no se hace nada, devuelve null
         if(!this.esVacio()){
             //  Aux sirve para recorrer la estructura buscando el vertice correcto
-            NodoVert aux = inicio;
+            NodoVertInt aux = inicio;
 
             //  Mientras no haya recorrido toda la estructura ni haya encontrado el elemento
             while(aux != null && resultado == null){
@@ -656,12 +793,12 @@ public class GrafoEtiquetado{
         return resultado;
     }
     
-    private Par<NodoVert, NodoVert> ubicarVertices(Object origen, Object destino){
+    private Par<NodoVertInt, NodoVertInt> ubicarVertices(Object origen, Object destino){
         
-        Par<NodoVert, NodoVert> resultado = new Par(null, null);
+        Par<NodoVertInt, NodoVertInt> resultado = new Par(null, null);
 
         //  Variable para recorrer la estructura
-        NodoVert aux = inicio;
+        NodoVertInt aux = inicio;
         //  Variable para saber cuando fueron encontrados ambos vertices y no recorrer
         //      de mas la estructura
         boolean encontrados = false;

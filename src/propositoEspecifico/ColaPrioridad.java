@@ -79,7 +79,13 @@ public class ColaPrioridad {
     //      el que llegó primero. Precondición: la cola no está vacía (si está vacía no se puede asegurar el
     //      funcionamiento de la operación).
     public Object obtenerFrente(){
-        return inicio.getItems().obtenerFrente();
+        Object resultado;
+        if(this.esVacia()){
+            resultado = null;
+        } else {
+            resultado = inicio.getItems().obtenerFrente();
+        }
+        return resultado;
     }
 
     //  Devuelve falso si hay al menos un elemento cargado en la estructura y verdadero en caso contrario.

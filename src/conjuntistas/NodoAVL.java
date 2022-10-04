@@ -41,6 +41,7 @@ public class NodoAVL {
         this.derecho = derecho;
     }
     
+    //  Prerr
     public void recalcularAltura(){
         
         this.altura = 0;
