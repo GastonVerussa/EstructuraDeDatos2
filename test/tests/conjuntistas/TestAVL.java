@@ -42,7 +42,7 @@ public class TestAVL {
         System.out.println("Sabado: " + arbol2.pertenece("Sabado"));
         
         System.out.println();
-        System.out.println("C) Sacar 3 elementos de la cola 1: ");
+        System.out.println("C) Sacar 3 elementos del arbol 1: ");
         System.out.println("Eliminamos Enero: " + arbol1.eliminar("Enero"));
         System.out.println(arbol1.toString());
         System.out.println();
@@ -54,7 +54,7 @@ public class TestAVL {
         System.out.println();
         
         System.out.println();
-        System.out.println("D) Sacar 3 elementos repetidos o que no existen de la cola 1: ");
+        System.out.println("D) Sacar 3 elementos repetidos o que no existen del arbol 1: ");
         System.out.println("Eliminamos Enero: " + arbol1.eliminar("Enero"));
         System.out.println(arbol1.toString());
         System.out.println();
@@ -66,7 +66,7 @@ public class TestAVL {
         System.out.println();
 
         System.out.println();
-        System.out.println("E) Poner 3 elementos (Uno, Dos y Tres) en la cola 1: ");
+        System.out.println("E) Poner 3 elementos (Uno, Dos y Tres) en el arbol 1: ");
         System.out.println(arbol1.insertar("Uno") && arbol1.insertar("Dos") && arbol1.insertar("Tres"));
         System.out.println("Arbol 1 y Arbol 2 son iguales?");
         System.out.println("Arbol 1: " + arbol1.toString());
